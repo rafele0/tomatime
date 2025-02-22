@@ -1,17 +1,15 @@
+import { useState } from 'react'
+import titlePageLogo from './assets/titlePage.svg'
+import plusLogo from './assets/plus.svg'
+import './index.css'
 
-<html>
+function App() {
+  const [count, setCount] = useState(0)
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../stylePage/index.css">
-    <title></title>
-</head>
-
-<body>
-
-    <nav>
-        <img src="../image/titlePage.svg" alt="title Page" id="titlePage">
+  return (
+    <>
+      <nav>
+      <img src={titlePageLogo} alt="title Page" id="titlePage"/>
     </nav>
 
     <main>
@@ -21,7 +19,7 @@
 
                 <span class="toDoTitle">TO DO</span>
                 <button class="addTaskBnt">
-                    <img src="" alt="Add" class="icon"> Add task
+                    <img src={plusLogo} alt="Add" class="add"/> Add task
                 </button>
 
 
@@ -39,6 +37,8 @@
 
 
     </main>
-</body>
+    </>
+  )
+}
 
-</html>
+export default App
