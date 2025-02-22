@@ -7,7 +7,7 @@ const app = express()
 const PORT = 3000
 app.use(express.json())
 
-app.use('/tasks/', tasksRoutes) 
+app.use('/tasks/', tasksRoutes.router) 
 
 
 sequelize
