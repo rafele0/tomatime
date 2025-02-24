@@ -1,9 +1,11 @@
 
 function add(newTitle, newDescription){
     let task;
+    if(!newTitle)
+        return "inserisci un titolo";
     task = {
-        description : newDescription,
-        title : newTitle
+        title : newTitle,
+        description : newDescription
     };
     return task;
 }
