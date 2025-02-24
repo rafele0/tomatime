@@ -13,7 +13,7 @@ const tasks = sequelize.define('tasks', {
     },
     description:{
         type : DataTypes.STRING,
-        allowNull : false
+        allowNull : true
     },
     time : {
         type : DataTypes.DATE,

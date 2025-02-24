@@ -1,5 +1,5 @@
 
-function add(description, title){
+function add(newTitle, newDescription){
     let task;
     task = {
         description : newDescription,
