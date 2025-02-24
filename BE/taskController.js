@@ -7,3 +7,5 @@ function add(newTitle, newDescription){
     };
     return task;
 }
+
+module.exports=add;
