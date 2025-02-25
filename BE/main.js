@@ -1,10 +1,10 @@
 const sequelize = require('./db.js')
-const Task = require('./entities/task.js')
+const Task = require('./entities/tasks.js')
 const functions = require('./taskController.js')
 
 
-async function main(title, description){
-    let task=functions.add(title, description)
+
+async function main(task){
     try{
         await sequelize.sync({force : true})
         console.log('il database è stat sincronizzato')
