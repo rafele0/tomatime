@@ -5,7 +5,8 @@ const tasks = sequelize.define('tasks', {
     id:{
         type: DataTypes.INTEGER,
         primaryKey : true,
-        autoIncrement : true
+        autoIncrement : true,
+        allowNull:false
     },
     title: {
         type : DataTypes.STRING,
@@ -29,4 +30,4 @@ const tasks = sequelize.define('tasks', {
     }
 })
 
-module.exports = tasks
+module.exports = tasks 
