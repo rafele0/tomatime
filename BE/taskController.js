@@ -108,6 +108,7 @@ async function countDone() {
 
 
 module.exports = {
+  countDone,
   create,
   deleteTask,
   updateTask
