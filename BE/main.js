@@ -1,11 +1,16 @@
 const sequelize = require('./db.js');
 const Task = require('./entities/tasks.js');
+const fn = require('./taskController.js')
 
 async function main() {
   try {
     // Sincronizza il database (force: true ricrea le tabelle, eliminando dati esistenti)
     await sequelize.sync({ force: true });
     console.log('Il database è stato sincronizzato');
+
+    // Esegui il conteggio delle task in stato 'done'
+    const doneTasksCount = await fn.countDone();
+    console.log(`Ci sono ${doneTasksCount} task completate.`);
 
     // Crea un nuovo task, fornendo i dati obbligatori
     const newTask = await Task.create({

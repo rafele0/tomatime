@@ -90,6 +90,21 @@ async function updateTask(taskId, updatedData) {
   }
 }
 
+async function countDone() {
+  try {
+      const count = await Task.count({
+          where: {
+              status: 'done'
+          }
+      });
+      console.log(`Numero di task in stato 'done': ${count}`);
+      return count;
+  } catch (error) {
+      console.error('Errore durante il conteggio delle task in stato done:', error);
+      throw error;
+  }
+}
+
 
 
 module.exports = {
