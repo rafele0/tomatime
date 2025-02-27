@@ -1,5 +1,5 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import TaskItem from './TaskItem';
 
 function WorkingSection({ tasks, onCompleteTask }) {
@@ -19,5 +19,15 @@ function WorkingSection({ tasks, onCompleteTask }) {
     </div>
   );
 }
+
+WorkingSection.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onCompleteTask: PropTypes.func.isRequired,
+};
 
 export default WorkingSection;

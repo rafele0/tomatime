@@ -1,5 +1,6 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function DoneSection({ tasks }) {
   return (
@@ -15,5 +16,14 @@ function DoneSection({ tasks }) {
     </div>
   );
 }
+
+DoneSection.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 
 export default DoneSection;

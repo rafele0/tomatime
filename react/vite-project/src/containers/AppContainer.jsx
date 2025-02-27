@@ -1,35 +1,54 @@
 import React, { useState } from "react";
 import TaskModal from "../components/TaskModal";
-import "../styles/App.css";
+import TodoSectionContainer from "./TodoSectionContainer";
+import DoneSectionContainer from "./DoneSectionContainer";
+import WorkingSectionContainer from "./WorkingSectionContainer";
+import titlePageLogo from '../assets/titlePage.svg'
+import "../index.css";
 
 const AppContainer = () => {
-  const [tasks, setTasks] = useState([ ]);
+  const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const addTask = (newTask) => {
-    setTasks([...tasks, { id: tasks.length + 1, title: newTask, completed: false }]);
+    setTasks([...tasks, { id: tasks.length + 1, title: newTask.title, description: newTask.description, completed: false, working: false }]);
   };
+
+  const startTask = (taskId) => {
+    setTasks(tasks.map(task => task.id === taskId ? { ...task, working: true } : task));
+  };
+
+  const completeTask = (taskId) => {
+    setTasks(tasks.map(task => task.id === taskId ? { ...task, completed: true, working: false } : task));
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const todoTasks = tasks.filter(task => !task.completed && !task.working);
+  const workingTasks = tasks.filter(task => task.working && !task.completed);
+  const doneTasks = tasks.filter(task => task.completed);
 
   return (
     <div className="app-container">
-      <header className="app-header">TOMATIME</header>
+      <header className="app-header"><img src={titlePageLogo}/></header>
       <main className="content">
-        <section className="task-section">
-          <h2>TO DO</h2>
-          <TaskList tasks={tasks} openModal={() => setIsModalOpen(true)} />
-        </section>
-        <section className="focus-section">
-          <h2>TIME TO FOCUS</h2>
-          <div className="timer-box">
-            <span className="time">25:00</span>
-            <button className="play-button">▶</button>
-          </div>
-        </section>
-        <section className="done-section">
-          <h2>DONE</h2>
-        </section>
+        <div className="task-section">
+          <TodoSectionContainer tasks={todoTasks} onAddTask={addTask} onStartTask={startTask} openModal={openModal} />
+        </div>
+        <div className="focus-section">
+          <WorkingSectionContainer tasks={workingTasks} onCompleteTask={completeTask} />
+        </div>
+        <div className="done-section">
+          <DoneSectionContainer tasks={doneTasks} />
+        </div>
       </main>
-      {isModalOpen && <TaskModal closeModal={() => setIsModalOpen(false)} addTask={addTask} />}
+      {isModalOpen && <TaskModal isOpen={isModalOpen} onClose={closeModal} onSave={addTask} />}
     </div>
   );
 };

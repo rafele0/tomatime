@@ -1,5 +1,5 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import TaskItem from './TaskItem';
 
 function TodoSection({
@@ -8,6 +8,7 @@ function TodoSection({
   setNewTaskTitle,
   handleSubmit,
   onStartTask,
+  openModal,
 }) {
   return (
     <div className="todo-section">
@@ -34,8 +35,25 @@ function TodoSection({
           +
         </button>
       </form>
+      <button onClick={openModal} className="add-task-button">
+        Aggiungi Task
+      </button>
     </div>
   );
 }
+
+TodoSection.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  newTaskTitle: PropTypes.string.isRequired,
+  setNewTaskTitle: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  onStartTask: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+};
 
 export default TodoSection;
