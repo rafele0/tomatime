@@ -7,11 +7,11 @@ const app = express()
 const PORT = 3000
 app.use(express.json())
 
-app.use('/tasks/', tasksRoutes.router) 
+app.use('/tasks', tasksRoutes) 
 
 
 sequelize
-    .sync()
+    .sync({alter:true})
     .then(() => {
         console.log('database sincronizzato');
     app.listen(PORT, () => {
