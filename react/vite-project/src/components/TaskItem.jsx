@@ -1,14 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Arrow from "../assets/arrow.svg";
+import Check from "../assets/circleCheck.svg";
 
 function TaskItem({ task, actionLabel, onAction }) {
   return (
-    <li className="task-item">
-      <span className="task-title">{task.title}</span>
-      <button className="task-action-button" onClick={() => onAction(task.id)}>
-        {actionLabel}
+    <>
+
+    <div className="task-item">
+    <button className="task-action-button" onClick={() => onAction(task.id)}>
+          {actionLabel} 
+      <span>
+        <img src={Check} alt="" className='CheckName' />
+      </span>
+      <span className="task-title">
+        {task.title}
+        </span>
+      <span>
+        <img src={Arrow} alt="Move to working" className='ArrowIcon' title='Move to working' />
+      </span>
+      
       </button>
-    </li>
+      </div> 
+    </>
   );
 }
 

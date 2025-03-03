@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TaskItem from './TaskItem';
+import Plus from '../assets/plus.svg';
 
 function TodoSection({
   tasks,
@@ -13,30 +14,19 @@ function TodoSection({
   return (
     <div className="todo-section">
       <h2 className="section-title">TO DO</h2>
-      <ul className="todo-list">
+      <div className="" style={{"display": "flex", "flexDirection": "column",}}>
         {tasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
-            actionLabel="Start"
+            
             onAction={() => onStartTask(task.id)}
           />
         ))}
-      </ul>
-      <form onSubmit={handleSubmit} className="add-task-form">
-        <input
-          className="add-task-input"
-          type="text"
-          placeholder="Add task"
-          value={newTaskTitle}
-          onChange={(e) => setNewTaskTitle(e.target.value)}
-        />
-        <button type="submit" className="add-task-button">
-          +
-        </button>
-      </form>
-      <button onClick={openModal} className="add-task-button">
-        Aggiungi Task
+      </div>
+      <button onClick={openModal} className="addTaskBnt">
+        <img src={Plus} alt="" className="PlusIcon" />
+        <span className='SpanAddTask'>Add task</span>
       </button>
     </div>
   );

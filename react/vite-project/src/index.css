@@ -1,21 +1,21 @@
-
 /* Stili generali */
 body {
-  background-color:#37363629;
+  background-color: #37363629;
   margin: 0;
   padding: 0;
-  width: 1920;
-  height: 1080;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: fixed;
 
 }
 
 .app-container {
   max-width: auto;
   margin: 0 auto;
-  padding: 20px; 
+  padding: 20px;
 }
 
 .app-header {
@@ -34,103 +34,198 @@ body {
   border-radius: 32px 32px 0px 0px;
   opacity: 1;
   background-color: #ffff;
-
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   justify-content: space-between;
 }
 
+/* Sezione dei task */
 .task-section {
   width: 480px;
-  height:auto;
-  padding:0px 88px 0px 88px;
-  margin-top:48px;
+  height: auto;
+  padding: 0px 88px 0px 88px;
+  margin-top: 48px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+
 }
 
-.focus-section{
-  width: 368px;
-  height: 876px;
-  background-color:#FFDE59;
-  border-radius: 8px 8px 0px 0px;
-  opacity: 1;
-  margin-top:48px;
-}
-
-.done-section{
+.addTaskBnt {
+  display: flex;
+  font-family: 'sora', regular;
+  align-items: center;
+  gap: 8px;
+  border: 2px dashed #D9391E;
+  border-radius: 12px;
+  background: none;
+  font-size: 18px;
+  color: #D9391E;
+  cursor: pointer;
+  outline: none;
+  margin-top: 24px;
+  height: 80px;
   width: 480px;
-  height:auto;
-  padding:0px 88px 0px 88px;
-  margin-top:48px;
+  position: sticky;
+
 }
 
 .section-title {
-    font-family: 'sora',sans-serif;
-    font-weight: 800;
-    font-size: 32px;
-    color:#D9391E;
+  font-family: 'sora', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  color: #D9391E;
+
 }
 
-.task-list, .working-list, .done-list {
+.SpanAddTask {
+  font-size: 18px;
+  font-family: 'sora', sans-serif;
+}
+
+.task-action-button {
+
+  display: flex;
+  flex-direction: row;
+  width: 480px;
+  height: 80px;
+  background: white;
+  border: 0px transparent;
+  border-radius: 5px;
+  color: #D33A2C;
+  font-size: 18px;
+  font-family: 'sora', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  align-items: center;
+
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* Sezione del focus */
+.focus-section {
+  width: 368px;
+  height: 876px;
+  background-color: #FFDE59;
+  border-radius: 8px 8px 0px 0px;
+  opacity: 1;
+  margin-top: 48px;
+  
+}
+
+.section-titleWorkingAt {
+  font-family: 'sora', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: #D9391E;
+  margin: 48px 66px 0px 58px;
+  height: 35px;
+
+}
+
+.working-section {        
+  margin-top: 48px;
+
+}
+
+.working-section__footer{
+ 
+ 
+}
+.section-for-task{
+  border: 1px solid white;
+  width: 320px;
+  height: 60px;
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+
+/* Sezione delle task fatte */
+.done-section {
+  width: 465px;
+  height: 832px;
+  display: flex;
+  flex-direction: column;
+  margin: 0px 80px 0px 30px;
+
+}
+.done-item{
+  width: 480px;
+  height: 80px;
+  border: none ;
+  border-radius: 16px;
+  background-color: #EEEEEE;
+  align-content: center;
+  di
+}
+.CircleDone {
+  width: 35px;
+  height: 35px;
+  background-color: #FFDE59;
+  border-radius: 50%;                         /* -------------------------------------------------------- da riv1q1npm runedere-------------------------------*/
+  margin-left: 10px;
+
+}
+
+.section-titleDone {
+  color: #FFDE59;
+  font-family: 'sora', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  margin-top: 75px;
+
+}
+.taskTitleDone{
+  color: #D33A2C;
+  font-size: 18px;
+  font-family: 'sora', sans-serif;
+}
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+
+.task-list,
+.working-list,
+.done-list {
   list-style-type: none;
   padding: 0;
 }
 
-.task-item, .done-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+
+.task-title {
+  font-size: 24px;
+  text-align: left;
+  padding-left: 28px;
 }
 
-.task-item:last-child, .done-item:last-child {
-  border-bottom: none;
-}
 
 .task-title {
   flex: 1;
 }
 
-.task-action-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+/* immagini svg del progetto */
+
+.PlusIcon {
+  width: 35px;
+  height: 35px;
 }
 
-.task-action-button:hover {
-  background-color: #45a049;
+.ArrowIcon {
+  width: 35px;
+  height: 35px;
+
 }
 
-.add-task-form {
-  display: flex;
-  margin-top: 10px;
+.CheckName {
+  width: 35px;
+  height: 35px;
 }
 
-.add-task-input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.add-task-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-task-button:hover {
-  background-color: #45a049;
-}
+/* --------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* Stili per la modale */
 .modal-overlay {
@@ -146,47 +241,36 @@ body {
 }
 
 .modal {
+
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 100%;
+  border-radius: 16px;
+  width: 600px; 
+  height: 348px;
 }
 
-.modal h2 {
-  margin-top: 0;
-}
-
-.modal input, .modal textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.modal button {
-  margin-top: 10px;
-  padding: 10px 20px;
+.modalInput {
+  width: 412px;
+  height: 40px;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  border-bottom: 3px solid #D9391E;
+  background-color: transparent;
+  outline: none;
+  margin-left: 20px;
+  padding-left: 1px;
+  font-size: 16px;
+  font-family: 'sora', sans-serif;
+
 }
 
-.modal button.save-button {
-  background-color: #4caf50;
-  color: white;
+::placeholder {
+  color: #D9391E;
+  font-size: 16px;
+  font-family: 'sora', sans-serif;
 }
 
-.modal button.save-button:hover {
-  background-color: #45a049;
-}
-
-.modal button.cancel-button {
-  background-color: #9e9e9e;
-  color: white;
-}
-
-.modal button.cancel-button:hover {
-  background-color: #8e8e8e;
+.modalHeader {
+  display: flex;
+  flex-direction: row;
+  margin: 72px 40px 0px 92px;
 }

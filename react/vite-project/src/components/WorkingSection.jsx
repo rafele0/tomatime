@@ -5,17 +5,28 @@ import TaskItem from './TaskItem';
 function WorkingSection({ tasks, onCompleteTask }) {
   return (
     <div className="working-section">
-      <h2 className="section-title">WORKING</h2>
+
+      <span className="section-titleWorkingAt">TIME TO FOCUS</span>
       <ul className="working-list">
         {tasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
-            actionLabel="Complete"
+            
             onAction={() => onCompleteTask(task.id)}
           />
         ))}
       </ul>
+      <div className='working-section__footer'>
+          <span>WORKING AT</span>
+
+          <div className='section-for-task'>
+              
+             
+          </div>
+        <button className='TodoRetrunBnt'>todo</button>
+        <button className='DoneNextBnt'>done</button>
+      </div>
     </div>
   );
 }

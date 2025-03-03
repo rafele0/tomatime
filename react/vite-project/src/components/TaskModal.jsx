@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Edit from '../assets/edit.svg';
+
+
 
 function TaskModal({ isOpen, onClose, onSave }) {
   const [title, setTitle] = useState('');
@@ -29,15 +32,20 @@ function TaskModal({ isOpen, onClose, onSave }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Nuova Task</h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <label>Titolo</label>
+        <div className='modalHeader'>
+        <img src={Edit} alt="" className='editTask'/>
+
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className='modalInput'
+          placeholder='Inserisci il titolo della task'
         />
-        <label>Descrizione</label>
+        
+        </div>
+        
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
