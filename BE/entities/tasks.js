@@ -1,11 +1,12 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db.js')
 
-const task = sequelize.define('task', {
+const tasks = sequelize.define('tasks', {
     id:{
         type: DataTypes.INTEGER,
         primaryKey : true,
-        autoIncrement : true
+        autoIncrement : true,
+        allowNull:false
     },
     title: {
         type : DataTypes.STRING,
@@ -27,8 +28,6 @@ const task = sequelize.define('task', {
         type : DataTypes.INTEGER,
         allowNull : false
     }
-}, {timestamps : true, 
-    tableName : 'tasks'
-} )
+})
 
-module.exports = {task}
+module.exports = tasks 
