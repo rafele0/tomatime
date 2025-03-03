@@ -166,11 +166,6 @@ module.exports = {
   countDone,
   create,
   deleteTask,
-<<<<<<< Updated upstream
-  updateTask
-};
-=======
   updateTask,
   updateTaskState
 };
->>>>>>> Stashed changes
