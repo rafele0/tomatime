@@ -3,8 +3,8 @@ const Task = require('./entities/tasks.js');
 async function create(task) {
   try {
     // Verifica che il task contenga titolo e descrizione
-    if (!task.title || !task.description) {
-      throw new Error('Titolo e descrizione sono obbligatori');
+    if (!task.title) {
+      throw new Error('Titolo obbligatorio');
     }
 
     // Crea un nuovo task con Sequelize
@@ -105,11 +105,72 @@ async function countDone() {
   }
 }
 
+async function updateTaskState(taskId, newState) {
+  try {
+    // Verifica che l'ID sia fornito e sia un numero
+    if (!taskId || isNaN(taskId)) {
+      throw new Error('ID non valido per la task da aggiornare');
+    }
+
+    // Verifica che lo stato sia valido
+    const validStates = ['to do', 'workingAt', 'done'];
+    if (!validStates.includes(newState)) {
+      throw new Error('Stato non valido');
+    }
+
+    // Trova la task da aggiornare
+    const taskToUpdate = await Task.findByPk(taskId);
+
+    // Se la task non esiste, lancia un errore
+    if (!taskToUpdate) {
+      throw new Error('Task non trovata');
+    }
+
+    // Regole di aggiornamento dello stato
+    const currentState = taskToUpdate.state;
+
+    if (currentState === 'to do' && newState !== 'workingAt') {
+      throw new Error('Da "to do" puoi cambiare solo a "workingAt"');
+    }
+
+    if (currentState === 'workingAt' && !['to do', 'done'].includes(newState)) {
+      throw new Error('Da "workingAt" puoi cambiare solo a "to do" o "done"');
+    }
+
+    if (currentState === 'done') {
+      throw new Error('Lo stato "done" è finale e non può essere modificato');
+    }
+
+    // Controlla se esiste già un task in "workingAt"
+    if (newState === 'workingAt') {
+      const existingWorkingAt = await Task.findOne({ where: { state: 'workingAt' } });
+      if (existingWorkingAt && existingWorkingAt.id !== taskId) {
+        throw new Error('Esiste già una task in "workingAt". Completa o modifica quella prima di aggiornare questa.');
+      }
+    }
+
+    // Se tutte le condizioni sono soddisfatte, aggiorna lo stato
+    taskToUpdate.state = newState;
+    await taskToUpdate.save();
+    console.log(`Stato della task con ID ${taskId} aggiornato a "${newState}"`);
+
+    return taskToUpdate;
+  } catch (error) {
+    console.error('Errore nell\'aggiornamento dello stato della task:', error);
+    throw error;
+  }
+}
 
 
 module.exports = {
   countDone,
   create,
   deleteTask,
+<<<<<<< Updated upstream
   updateTask
 };
+=======
+  updateTask,
+  updateTaskState
+};
+>>>>>>> Stashed changes
