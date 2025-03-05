@@ -16,6 +16,10 @@ const tomatoes = sequelize.define('tomatoes', {
         type : DataTypes.STRING,
         allowNull : false
     },
+    last_used : {
+        type : DataTypes.BOOLEAN,
+        defaultValue : false
+    }
 })
 
 module.exports = tomatoes

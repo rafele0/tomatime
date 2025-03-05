@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const tasks = require('../entities/tasks.js');
 const fn = require('../taskController.js')
+const Tomato = require('../entities/tomatoes.js');
 
 
 router.get('/', async (req,res) => {
@@ -25,14 +26,34 @@ router.post('/', async (req, res) => {
 router.post('/start', async (req, res) => {
     try {
         // Controlla se esiste un task in "In Progress"
-        const inProgressTask = await Task.findOne({ where: { state: 'In Progress' } });
+        const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
 
         if (!inProgressTask) {
             return res.status(400).json({ message: 'Nessun task in progress. Avvia un task prima di iniziare il pomodoro.' });
         }
 
-        // Avvia il timer del pomodoro
-        res.json({ message: 'Timer pomodoro avviato!', task: inProgressTask });
+        const tomatoCycle = await Tomato.findOne({ where: { last_used : true } });
+        if (!tomatoCycle) {// Imposta un timer per il prossimo ciclo di pomodoro
+            setTimeout(async () => {
+              try {
+                await moveToNextTomato(nextTomato.id, taskId);
+                console.log('Moved to the next tomato');
+              } catch (error) {
+                console.error('Errore nel passaggio al pomodoro successivo:', error);
+              }
+            }, nextTomato.duration * 60000);
+          
+          return res.status(400).json({ 
+            message: 'Nessuna configurazione trovata nella tabella tomatoes.' 
+          });
+        }
+
+        const currentTime = new Date();
+
+        // Aggiorna il task con l'orario attuale nella colonna time
+        await tasks.update({ time: currentTime }, { where: { id: inProgressTask.id } });
+
+        res.json({ message: 'Task aggiornato con l\'orario attuale!', task: inProgressTask, time: currentTime });
     } catch (error) {
         console.error('Errore avvio pomodoro:', error);
         res.status(500).json({ message: 'Errore interno del server' });

@@ -1,4 +1,7 @@
 const Task = require('./entities/tasks.js');
+const Tomato = require('./entities/tomatoes.js');
+const { move } = require('./routes/tasksRoutes.js');
+
 
 async function create(task) {
   try {
@@ -162,7 +165,40 @@ async function updateTaskState(taskId, newState) {
 }
 
 
+
+async function moveToNextTomato(currentTomatoId, taskId) {
+  const currentTomato = await Tomato.findByPk(currentTomatoId);
+  if (!currentTomato) {
+    throw new Error('Current tomato not found');
+  }
+
+  let nextTomatoId = currentTomatoId + 1;
+  if (nextTomatoId > 8) {
+    nextTomatoId = 1;
+  }
+
+  const nextTomato = await Tomato.findByPk(nextTomatoId);
+  if (!nextTomato) {
+    throw new Error('Next tomato not found');
+  }
+
+  // Update last_used for current and next tomato
+  currentTomato.last_used = false;
+  await currentTomato.save();
+
+  nextTomato.last_used = true;
+  await nextTomato.save();
+
+  const currentTime = new Date();
+  await Task.update({ time: currentTime }, { where: { id: taskId } });
+
+  return nextTomato;
+}
+
+
+
 module.exports = {
+  moveToNextTomato,
   countDone,
   create,
   deleteTask,
