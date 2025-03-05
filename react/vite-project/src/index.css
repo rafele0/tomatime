@@ -71,10 +71,8 @@ body {
 }
 
 .section-title {
-  font-family: 'sora', sans-serif;
-  font-weight: 800;
-  font-size: 32px;
-  color: #D9391E;
+  height: 35px;
+  width:236px;
 
 }
 
@@ -108,12 +106,12 @@ body {
 /* Sezione del focus */
 .focus-section {
   width: 368px;
-  height: 876px;
+  height: 872px;
   background-color: #FFDE59;
   border-radius: 8px 8px 0px 0px;
   opacity: 1;
   margin-top: 48px;
-  
+  left: 656px;
 }
 
 .section-titleWorkingAt {
@@ -121,26 +119,64 @@ body {
   font-weight: 800;
   font-size: 28px;
   color: #D9391E;
-  margin: 48px 66px 0px 58px;
+  margin-left: 66px;
   height: 35px;
+  width:236px;
 
 }
+
 
 .working-section {        
   margin-top: 48px;
 
 }
 
-.working-section__footer{
- 
- 
-}
+
 .section-for-task{
   border: 1px solid white;
   width: 320px;
   height: 60px;
+  margin-left: 24px;
+  position:absolute;
+  bottom: 82px;
 }
 
+.workingAt{
+  margin-left: 115px;
+  position:absolute;
+  bottom: 157px; 
+
+}
+
+.btnToDo{
+  position:absolute;
+  height: 40px;
+  width: 148px;
+  bottom:24px;
+  margin-left: 24px;
+  align-self: center;
+  background: transparent;
+  border: transparent;
+  color: #DAA520;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btnDone{
+  position:absolute;
+  height: 40px;
+  width: 148px;
+  bottom:24px;
+  margin-left: 199px;
+  align-self: center;
+  background: transparent;
+  border: transparent;
+  color: #DAA520;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+}
 /* -------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
