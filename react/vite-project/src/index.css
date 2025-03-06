@@ -161,6 +161,7 @@ body {
   font-weight: bold;
   font-size: 18px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .btnDone{
@@ -176,6 +177,15 @@ body {
   font-weight: bold;
   font-size: 18px;
   cursor: pointer;
+  border-radius: 5px;
+}
+
+.btnDone:hover {
+  background-color: white;
+}
+
+.btnToDo:hover {
+  background-color: white;
 }
 /* -------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -294,19 +304,28 @@ body {
   outline: none;
   margin-left: 20px;
   padding-left: 1px;
-  font-size: 16px;
   font-family: 'sora', sans-serif;
-
+  font-size: 24px;
+  color: #D9391E;
 }
 
-::placeholder {
+.modalInput::placeholder {
   color: #D9391E;
-  font-size: 16px;
-  font-family: 'sora', sans-serif;
+  
 }
 
 .modalHeader {
   display: flex;
   flex-direction: row;
-  margin: 72px 40px 0px 92px;
+  margin: 35px 0px 0px 40px;
+}
+
+.modalTextArea{
+  border: 2px solid rgba(0, 0, 0, 0.3); /* Bordo semi-trasparente */
+  border-radius: 8px; /* Angoli arrotondati */
+  background: transparent;
+  color: #D9391E;
+  outline: none; /* Rimuove il contorno di default */
+  box-shadow: 3px 3px 8px rgba(129, 129, 129, 0.229), 
+              -3px -3px 8px rgba(255, 255, 255, 0.808); /* Effetto rialzato */
 }

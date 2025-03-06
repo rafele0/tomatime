@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Edit from '../assets/edit.svg';
+import Delate from '../assets/delate.svg'
 
 
 
@@ -41,7 +42,7 @@ function TaskModal({ isOpen, onClose, onSave }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className='modalInput'
-          placeholder='Inserisci il titolo della task'
+          placeholder='Send Message'
         />
         
         </div>
@@ -50,10 +51,14 @@ function TaskModal({ isOpen, onClose, onSave }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
+          className='modalTextArea'
+          style={{"resize":"none", "width":"520px", "height":"120px", "marginLeft":"40px", "marginTop":"40px", "borderRadius":"8px"}}
+          placeholder=''
         />
         <div>
-          <button onClick={handleSave}>Salva</button>
-          <button onClick={onClose}>Annulla</button>
+          <button style={{"width":"36px", "height":"36px", "marginLeft":"40px","marginTop":"36px","background":"transparent","borderRadius":"8px", "border":"1px solid #D9391E"}}><img src={Delate}></img></button>
+          <button onClick={onClose} style={{"width":"132px", "height":"40px","marginLeft":"200px", "marginTop":"36px","background":"transparent","borderRadius":"8px", "border":"1px solid #D9391E", "fontFamily":"sora sans-serif", "fontWeight":"regular", "fontSize":"20px", "color":"#D9391E"}}>Cancel</button>
+          <button onClick={handleSave} style={{"width":"132px", "height":"40px","marginLeft":"26px", "marginTop":"36px","background":"#D9391E","borderRadius":"8px", "border":"1px solid #D9391E", "fontFamily":"sora sans-serif", "fontWeight":"regular", "fontSize":"20px", "color":"white"}}>Add Task</button>
         </div>
       </div>
     </div>
