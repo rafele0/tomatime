@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     
 });
 
-// Avvia il timer del pomodoro se c'è un task "In Progress"
+// Avvia il timer del pomodoro se c'è un task "workingAt"
 router.post('/start', async (req, res) => {
     try {
         // Controlla se esiste un task in "In Progress"
@@ -33,10 +33,10 @@ router.post('/start', async (req, res) => {
         }
 
         const tomatoCycle = await Tomato.findOne({ where: { last_used : true } });
-        if (!tomatoCycle) {// Imposta un timer per il prossimo ciclo di pomodoro
+        if (!tomatoCycle) { return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' }); }
             setTimeout(async () => {
               try {
-                await moveToNextTomato(nextTomato.id, taskId);
+                await moveToNextTomato(tomatoCycle.id, taskId);
                 console.log('Moved to the next tomato');
               } catch (error) {
                 console.error('Errore nel passaggio al pomodoro successivo:', error);
@@ -46,7 +46,7 @@ router.post('/start', async (req, res) => {
           return res.status(400).json({ 
             message: 'Nessuna configurazione trovata nella tabella tomatoes.' 
           });
-        }
+        
 
         const currentTime = new Date();
 
