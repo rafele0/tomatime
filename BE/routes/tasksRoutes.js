@@ -32,6 +32,11 @@ router.post('/start', async (req, res) => {
             return res.status(400).json({ message: 'Nessun task in progress. Avvia un task prima di iniziare il pomodoro.' });
         }
 
+        const currentTime = new Date();
+
+        // Aggiorna il task con l'orario attuale nella colonna time
+        await tasks.update({ time: currentTime }, { where: { id: inProgressTask.id } });
+
         const tomatoCycle = await Tomato.findOne({ where: { last_used : true } });
         if (!tomatoCycle) { return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' }); }
             setTimeout(async () => {
@@ -47,11 +52,6 @@ router.post('/start', async (req, res) => {
             message: 'Nessuna configurazione trovata nella tabella tomatoes.' 
           });
         
-
-        const currentTime = new Date();
-
-        // Aggiorna il task con l'orario attuale nella colonna time
-        await tasks.update({ time: currentTime }, { where: { id: inProgressTask.id } });
 
         res.json({ message: 'Task aggiornato con l\'orario attuale!', task: inProgressTask, time: currentTime });
     } catch (error) {
@@ -81,4 +81,44 @@ router.put('/', async (req, res) => {
   }
 });
 
+
+router.get('/resume', async (req, res) => {
+  try {
+      const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
+
+      if (!inProgressTask) {
+          return res.status(400).json({ message: 'Nessun task in progress. Avvia un task prima di iniziare il pomodoro.' });
+      }
+
+      const tomatoCycle = await Tomato.findOne({ where: { last_used: true } });
+      if (!tomatoCycle) {
+          return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
+      }
+
+      const currentTime = new Date();
+      const startTime = new Date(inProgressTask.time);
+      const elapsedTime = (currentTime - startTime) / 60000; // tempo trascorso in minuti
+      const remainingTime = tomatoCycle.duration - elapsedTime;
+
+      if (remainingTime <= 0) {
+          await fn.moveToNextTomato(tomatoCycle.id, inProgressTask.id);
+          return res.json({ message: 'Il ciclo di pomodoro è già terminato e si è passati al successivo.' });
+      }
+
+      // Imposta un nuovo timer con il tempo rimanente
+      setTimeout(async () => {
+          try {
+              await fn.moveToNextTomato(tomatoCycle.id, inProgressTask.id);
+              console.log('Moved to the next tomato');
+          } catch (error) {
+              console.error('Errore nel passaggio al pomodoro successivo:', error);
+          }
+      }, remainingTime * 60000);
+
+      res.json({ message: 'Timer ripreso con successo!', remainingTime: remainingTime });
+  } catch (error) {
+      console.error('Errore nel riprendere il timer:', error);
+      res.status(500).json({ message: 'Errore interno del server' });
+  }
+});
 module.exports = router
