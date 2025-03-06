@@ -19,6 +19,10 @@ const tomatoes = sequelize.define('tomatoes', {
     last_used : {
         type : DataTypes.BOOLEAN,
         defaultValue : false
+    },
+    exploded : {
+        type : DataTypes.INTEGER,
+        defaultValue : 0
     }
 })
 

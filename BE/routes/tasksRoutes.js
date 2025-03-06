@@ -82,6 +82,34 @@ router.put('/', async (req, res) => {
 });
 
 
+router.post('/stop', async (req, res) => {
+  try {
+      const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
+
+      if (!inProgressTask) {
+          return res.status(400).json({ message: 'Nessun task in progress da interrompere.' });
+      }
+
+      const tomatoCycle = await Tomato.findOne({ where: { last_used: true } });
+      if (!tomatoCycle) {
+          return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
+      }
+
+      // Incrementa il contatore exploded
+      tomatoCycle.exploded += 1;
+      await tomatoCycle.save();
+
+      // Aggiorna lo stato del task
+      await tasks.update({ state: 'to do' }, { where: { id: inProgressTask.id } });
+
+      res.json({ message: 'Timer interrotto e pomodoro segnato come esploso.' });
+  } catch (error) {
+      console.error('Errore nell\'interruzione del timer:', error);
+      res.status(500).json({ message: 'Errore interno del server' });
+  }
+});
+
+
 router.get('/resume', async (req, res) => {
   try {
       const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });

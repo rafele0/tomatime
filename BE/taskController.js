@@ -165,7 +165,6 @@ async function updateTaskState(taskId, newState) {
 }
 
 
-
 async function moveToNextTomato(currentTomatoId, taskId) {
   const currentTomato = await Tomato.findByPk(currentTomatoId);
   if (!currentTomato) {
@@ -197,11 +196,24 @@ async function moveToNextTomato(currentTomatoId, taskId) {
 
 
 
+async function countExplodedTomatoes() {
+  try {
+      const count = await Tomato.sum('exploded');
+      console.log(`Numero di pomodori esplosi: ${count}`);
+      return count;
+  } catch (error) {
+      console.error('Errore durante il conteggio dei pomodori esplosi:', error);
+      throw error;
+  }
+}
+
+
 module.exports = {
   moveToNextTomato,
   countDone,
   create,
   deleteTask,
   updateTask,
-  updateTaskState
+  updateTaskState,
+  countExplodedTomatoes
 };
