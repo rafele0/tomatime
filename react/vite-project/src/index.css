@@ -71,8 +71,9 @@ body {
 }
 
 .section-title {
-  height: 35px;
-  width:236px;
+
+  color:#D9391E;
+  font-size: 32px;
 
 }
 
@@ -136,6 +137,7 @@ body {
   font-family: 'sora', sans-serif;
   color: #D33A2C;
   background-size:332px 62px ;
+
 }
 
 .section-for-task:nth-child(){
@@ -202,6 +204,8 @@ body {
 .btnToDo:hover {
   background-color: white;
 }
+
+
 /* -------------------------------------------------------------------------------------------------------------------------------------------- */
 
 

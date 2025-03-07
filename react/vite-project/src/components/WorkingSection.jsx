@@ -1,23 +1,120 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TaskItem from './TaskItem';
 import working from '../assets/titleWorkingAt.svg';
 import arrowLeft from '../assets/arrowLeftWorking.svg';
 import arrowRight from '../assets/arrowRightWorking.svg';
+import Start from '../assets/start.svg';
+import Stop from '../assets/stop.svg';
+import Reset from '../assets/reset.svg';
 
-function WorkingSection({ tasks, onCompleteTask }) {
-  
-  
-  
-  
+function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
+  const [minutes, setMinutes] = useState(initialMinutes);
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        if (seconds === 0) {
+          if (minutes === 0) {
+            clearInterval(interval);
+          } else {
+            setMinutes(minutes - 1);
+            setSeconds(59);
+          }
+        } else {
+          setSeconds(seconds - 1);
+        }
+      }, 1000);
+    } else if (!isActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, seconds, minutes]);
+
+  const handleStart = () => {
+    setIsActive(true);
+    setHasStarted(true);
+  };
+
+  const handleStartStop = () => {
+    setIsActive(!isActive);
+  };
+
+  const handleReset = () => {
+    setMinutes(initialMinutes);
+    setSeconds(0);
+    setIsActive(false);
+    setHasStarted(false);
+  };
+
   return (
-    
     <div className="intWorking">
       <div className="working-section">
-
         <span className="section-titleWorkingAt">TIME TO FOCUS</span>
-
       </div>
+      
+      <div className="timer"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "20px",
+        fontSize: "96px",
+        color: "#d9391e",
+        fontFamily: "Sora",
+        fontWeight: "bold",
+        
+        }}>
+        <span>{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</span>
+      </div>
+
+
+      {!hasStarted ? (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "109px",
+          }}>
+        <button 
+        style={{
+          background:"transparent", 
+          border:"none",
+          cursor:"pointer",
+        
+              }}
+        onClick={handleStart}><img style={{width:"80px", height:"80px"}} src={Start}/></button></div>
+      ) : (
+        <><div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          marginTop: "109px",
+          }}>
+          <button 
+          style={{
+            background:"transparent",
+            border:"none",
+            cursor:"pointer",
+          }}onClick={handleStartStop}>{isActive ? <img style={{width:"80px", height:"80px"}} src={Stop}/> : <img style={{width:"80px", height:"80px"}} src={Start}/>}</button>
+
+          <button
+          style={{
+            background:"transparent",
+            border:"none",
+            cursor:"pointer",
+          }} 
+          onClick={handleReset}><img style={{width:"80px", height:"80px"}} src={Reset}/></button>
+          </div>
+        </>
+      )}
+
+
       <img src={working} className='workingAt' />
       <div className='section-for-task'>
         {tasks.slice(0, 1).map((task) => (
@@ -27,15 +124,16 @@ function WorkingSection({ tasks, onCompleteTask }) {
         ))}
       </div>
 
-      <button className='btnToDo' onClick={()=> (tasks[0].id)}>  
-       <img src={arrowLeft} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "-40px" }} /> To Do </button>
-      <button className='btnDone' onClick={() => onCompleteTask(tasks[0].id)}>Done <img src={arrowRight} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "20px" }} /></button>
 
+      <button className='btnToDo' onClick={() => (tasks[0].id)}>  
+        <img src={arrowLeft} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "-40px" }} /> To Do 
+      </button>
+      <button className='btnDone' onClick={() => onCompleteTask(tasks[0].id)}>
+        Done <img src={arrowRight} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "20px" }} />
+      </button>
 
-
-
+      
     </div>
-
   );
 }
 
@@ -47,6 +145,7 @@ WorkingSection.propTypes = {
     })
   ).isRequired,
   onCompleteTask: PropTypes.func.isRequired,
+  initialMinutes: PropTypes.number.isRequired,
 };
 
 export default WorkingSection;
