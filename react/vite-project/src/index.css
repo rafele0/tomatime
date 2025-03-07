@@ -130,15 +130,30 @@ body {
   margin-top: 48px;
 
 }
+.task-title-only{ 
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'sora', sans-serif;
+  color: #D33A2C;
+  background-size:332px 62px ;
+}
 
+.section-for-task:nth-child(){
+  background: #ffff;
+}
 
 .section-for-task{
-  border: 1px solid white;
+  border: 2px solid white;
   width: 320px;
   height: 60px;
   margin-left: 24px;
   position:absolute;
   bottom: 82px;
+  border-radius:8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .workingAt{
@@ -198,7 +213,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0px 80px 0px 30px;
-
+  
 }
 .done-item{
   width: 480px;
@@ -207,14 +222,16 @@ body {
   border-radius: 16px;
   background-color: #EEEEEE;
   align-content: center;
-  di
+  margin-bottom:10px;
+  justify-content: center;
+  align-items: center;
 }
 .CircleDone {
   width: 35px;
   height: 35px;
   background-color: #FFDE59;
   border-radius: 50%;                         /* -------------------------------------------------------- da riv1q1npm runedere-------------------------------*/
-  margin-left: 10px;
+  margin-left: 20px;
 
 }
 
@@ -228,8 +245,12 @@ body {
 }
 .taskTitleDone{
   color: #D33A2C;
-  font-size: 18px;
-  font-family: 'sora', sans-serif;
+  font-size: 20px;
+  font-family: 'sora' sans-serif;
+  margin-top: 7px;
+  position:absolute;
+  margin-left: 20px;
+  font-weight: 600;
 }
 /* --------------------------------------------------------------------------------------------------------------------------- */
 
@@ -258,6 +279,7 @@ body {
 .PlusIcon {
   width: 35px;
   height: 35px;
+  margin-left: 20px;
 }
 
 .ArrowIcon {

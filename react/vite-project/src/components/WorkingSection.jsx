@@ -6,35 +6,36 @@ import arrowLeft from '../assets/arrowLeftWorking.svg';
 import arrowRight from '../assets/arrowRightWorking.svg';
 
 function WorkingSection({ tasks, onCompleteTask }) {
+  
+  
+  
+  
   return (
-  <div className="intWorking">
-    <div className="working-section">
+    
+    <div className="intWorking">
+      <div className="working-section">
 
-      <span className="section-titleWorkingAt">TIME TO FOCUS</span>
-      <ul className="working-list">
-        {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            
-            onAction={() => onCompleteTask(task.id)}
-          />
-        ))}
-      </ul>
-      
+        <span className="section-titleWorkingAt">TIME TO FOCUS</span>
 
       </div>
-      <img src={working} className='workingAt'/>
-      <div className='section-for-task'></div>
+      <img src={working} className='workingAt' />
+      <div className='section-for-task'>
+        {tasks.slice(0, 1).map((task) => (
+          <span key={task.id} className="task-title-only">
+            {task.title}
+          </span>
+        ))}
+      </div>
 
-      <button className='btnToDo'> <img src={arrowLeft} style={{"width":"20%", "height":"70%", "position":"absolute","justifyContent":"center", "top":"5px", "marginInline":"-40px"}}/> To Do </button>
-      <button className='btnDone'>Done <img src={arrowRight} style={{"width":"20%", "height":"70%", "position":"absolute","justifyContent":"center", "top":"5px", "marginInline":"20px"}}/></button>
+      <button className='btnToDo' onClick={()=> (tasks[0].id)}>  
+       <img src={arrowLeft} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "-40px" }} /> To Do </button>
+      <button className='btnDone' onClick={() => onCompleteTask(tasks[0].id)}>Done <img src={arrowRight} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "20px" }} /></button>
 
 
-      
 
-</div>
-    
+
+    </div>
+
   );
 }
 
