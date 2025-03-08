@@ -18,12 +18,12 @@ router.post('/', async (req, res) => {
         title: body.title,
         description: body.description
     }
-    fn.create(newTask);
+    res.status(200).json((await fn.create(newTask)).toJSON());
     
 });
 
 // Avvia il timer del pomodoro se c'è un task "workingAt"
-router.post('/start', async (req, res) => {
+router.get('/start', async (req, res) => {
     try {
         // Controlla se esiste un task in "In Progress"
         const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
@@ -41,7 +41,7 @@ router.post('/start', async (req, res) => {
         if (!tomatoCycle) { return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' }); }
             setTimeout(async () => {
               try {
-                await moveToNextTomato(tomatoCycle.id, taskId);
+                let nextTomato = await moveToNextTomato(tomatoCycle.id, taskId);
                 console.log('Moved to the next tomato');
               } catch (error) {
                 console.error('Errore nel passaggio al pomodoro successivo:', error);
@@ -75,6 +75,18 @@ router.put('/', async (req, res) => {
     const taskId = req.body.id; 
     const updatedData = req.body;
     const updatedTask = await fn.updateTask(taskId, updatedData);
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+
+router.put('/state', async (req, res) => {
+  try {
+    const taskId = req.body.id; 
+    const updatedData = req.body.state;
+    const updatedTask = await fn.updateTaskState(taskId, updatedData);
     res.status(200).json(updatedTask);
   } catch (error) {
     res.status(400).json({ error: error.message });
