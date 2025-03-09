@@ -118,6 +118,23 @@ router.post('/stop', async (req, res) => {
 });
 
 
+router.get('/exploded', async (req, res) => {
+    try {
+        const userId = req.params.user_id;
+        if (!userId) {
+            return res.status(400).json({ message: 'user_id is required' });
+        }
+
+        const tomatoes = await Tomato.findAll({ where: { user_id: userId } });
+        const totalExploded = tomatoes.reduce((sum, tomato) => sum + tomato.exploded, 0);
+
+        res.json({ user_id: userId, totalExploded: totalExploded });
+    } catch (error) {
+        console.error('Errore nel recupero dei task esplosi:', error);
+        res.status(500).json({ message: 'Errore interno del server' });
+    }
+    });
+
 router.get('/resume', async (req, res) => {
   try {
       const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
