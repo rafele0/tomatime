@@ -9,7 +9,12 @@ import Stop from '../assets/stop.svg';
 import Reset from '../assets/reset.svg';
 
 function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
-  const [minutes, setMinutes] = useState(initialMinutes);
+  const [minutes, setMinutes] = useState(() => {
+    fetch("http://localhost:3000/tasks/timer")
+      .then((response) => response.json())
+      .then((data) => setMinutes(data.remainingTime));
+    return initialMinutes;
+  });
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -36,6 +41,9 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   }, [isActive, seconds, minutes]);
 
   const handleStart = () => {
+    fetch("http://localhost:3000/tasks/start")
+      .then((response) => response.json())
+      .then((data) => setTasks(data));
     setIsActive(true);
     setHasStarted(true);
   };

@@ -11,7 +11,7 @@ router.get('/', async (req,res) => {
 
 router.post('/', async (req, res) => {
     const body = req.body
-    if (!body.title || !body.description) {
+    if (!body.title) {
         return res.status(400).json({ message: 'bad request' })
     }
     const newTask = {
@@ -21,6 +21,16 @@ router.post('/', async (req, res) => {
     res.status(200).json((await fn.create(newTask)).toJSON());
     
 });
+
+
+router.get('/timer', async (req, res) => {
+
+  const tomatoCycle = await Tomato.findOne({ where: { last_used : true } });
+  if (!tomatoCycle) { return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' }); }
+      const remainingTime = tomatoCycle.duration;
+      return res.status(200).json({ message: 'Task aggiornato con l\'orario attuale!', remainingTime: remainingTime });
+ });
+ 
 
 // Avvia il timer del pomodoro se c'è un task "workingAt"
 router.get('/start', async (req, res) => {
@@ -37,20 +47,6 @@ router.get('/start', async (req, res) => {
         // Aggiorna il task con l'orario attuale nella colonna time
         await tasks.update({ time: currentTime }, { where: { id: inProgressTask.id } });
 
-        const tomatoCycle = await Tomato.findOne({ where: { last_used : true } });
-        if (!tomatoCycle) { return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' }); }
-            setTimeout(async () => {
-              try {
-                let nextTomato = await moveToNextTomato(tomatoCycle.id, taskId);
-                console.log('Moved to the next tomato');
-              } catch (error) {
-                console.error('Errore nel passaggio al pomodoro successivo:', error);
-              }
-            }, nextTomato.duration * 60000);
-          
-          return res.status(400).json({ 
-            message: 'Nessuna configurazione trovata nella tabella tomatoes.' 
-          });
         
 
         res.json({ message: 'Task aggiornato con l\'orario attuale!', task: inProgressTask, time: currentTime });
