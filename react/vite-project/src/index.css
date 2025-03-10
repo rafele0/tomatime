@@ -42,13 +42,23 @@ body {
 /* Sezione dei task */
 .task-section {
   width: 480px;
-  height: auto;
+  height: 832px; ;
   padding: 0px 88px 0px 88px;
   margin-top: 48px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  
 
+}
+
+.todo-section {
+  width: 580px;
+  height: 582px;
+  display: flex;
+  flex-direction: column;
+  margin: 100px 80px 0px 30px;
+  overflow-y: auto;
+  position:fixed
 }
 
 .addTaskBnt {
@@ -74,6 +84,8 @@ body {
 
   color:#D9391E;
   font-size: 32px;
+ 
+  position:absolute
 
 }
 
@@ -255,6 +267,32 @@ body {
   position:absolute;
   margin-left: 20px;
   font-weight: 600;
+}
+
+.tomate {
+  position: absolute;
+  bottom: -150px; /* Posiziona l'immagine sotto il rettangolo giallo */
+  right: 42%; /* Centra l'immagine orizzontalmente rispetto al rettangolo giallo */
+  width: 303px;
+  height: 303px;
+  transition: transform 2s ease-in-out; /* Definisci la transizione */
+  transform: translate(50%, 0);/* Posizione iniziale */
+}
+
+.intWorking .tomate {
+  transform: translate(104%, -350px); /* Posizione finale */
+}
+
+.timer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 96px;
+  margin-top: 20px;
+  color: #D9391E;
+  font-family: 'sora', sans-serif;
+  font-weight: 700;
+
 }
 /* --------------------------------------------------------------------------------------------------------------------------- */
 

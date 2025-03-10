@@ -12,8 +12,10 @@ function TodoSection({
   openModal,
 }) {
   return (
+    <div>
+    <h2 className="section-title">TO DO</h2>
     <div className="todo-section">
-      <h2 className="section-title">TO DO</h2>
+      
       <div className="" style={{"display": "flex", "flexDirection": "column",}}>
         {tasks.map((task) => (
           <TaskItem
@@ -28,6 +30,7 @@ function TodoSection({
         <img src={Plus} alt="" className="PlusIcon" />
         <span className='SpanAddTask'>Add task</span>
       </button>
+    </div>
     </div>
   );
 }

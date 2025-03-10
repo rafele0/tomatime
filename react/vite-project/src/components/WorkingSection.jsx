@@ -7,12 +7,14 @@ import arrowRight from '../assets/arrowRightWorking.svg';
 import Start from '../assets/start.svg';
 import Stop from '../assets/stop.svg';
 import Reset from '../assets/reset.svg';
+import tomate from '../assets/tomate.png'; // Importa l'immagine
 
 function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [showTomate, setShowTomate] = useState(false); // Stato per gestire la visibilità dell'immagine
 
   useEffect(() => {
     let interval = null;
@@ -38,6 +40,7 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   const handleStart = () => {
     setIsActive(true);
     setHasStarted(true);
+    setShowTomate(true); // Mostra l'immagine
   };
 
   const handleStartStop = () => {
@@ -49,6 +52,7 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
     setSeconds(0);
     setIsActive(false);
     setHasStarted(false);
+    setShowTomate(false); // Nascondi l'immagine
   };
 
   return (
@@ -56,65 +60,6 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
       <div className="working-section">
         <span className="section-titleWorkingAt">TIME TO FOCUS</span>
       </div>
-      
-      <div className="timer"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: "20px",
-        fontSize: "96px",
-        color: "#d9391e",
-        fontFamily: "Sora",
-        fontWeight: "bold",
-        
-        }}>
-        <span>{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</span>
-      </div>
-
-
-      {!hasStarted ? (
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "109px",
-          }}>
-        <button 
-        style={{
-          background:"transparent", 
-          border:"none",
-          cursor:"pointer",
-        
-              }}
-        onClick={handleStart}><img style={{width:"80px", height:"80px"}} src={Start}/></button></div>
-      ) : (
-        <><div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "row",
-          marginTop: "109px",
-          }}>
-          <button 
-          style={{
-            background:"transparent",
-            border:"none",
-            cursor:"pointer",
-          }}onClick={handleStartStop}>{isActive ? <img style={{width:"80px", height:"80px"}} src={Stop}/> : <img style={{width:"80px", height:"80px"}} src={Start}/>}</button>
-
-          <button
-          style={{
-            background:"transparent",
-            border:"none",
-            cursor:"pointer",
-          }} 
-          onClick={handleReset}><img style={{width:"80px", height:"80px"}} src={Reset}/></button>
-          </div>
-        </>
-      )}
-
-
       <img src={working} className='workingAt' />
       <div className='section-for-task'>
         {tasks.slice(0, 1).map((task) => (
@@ -124,6 +69,9 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
         ))}
       </div>
 
+      <div className="timer">
+        <span>{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</span>
+      </div>
 
       <button className='btnToDo' onClick={() => (tasks[0].id)}>  
         <img src={arrowLeft} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "-40px" }} /> To Do 
@@ -132,7 +80,54 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
         Done <img src={arrowRight} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "20px" }} />
       </button>
 
-      
+      {!hasStarted ? (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "109px",
+        }}>
+          <button 
+            style={{
+              background:"transparent", 
+              border:"none",
+              cursor:"pointer",
+            }}
+            onClick={handleStart}>
+            <img style={{width:"80px", height:"80px"}} src={Start}/>
+          </button>
+        </div>
+      ) : (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          marginTop: "109px",
+        }}>
+          <button 
+            style={{
+              background:"transparent",
+              border:"none",
+              cursor:"pointer",
+            }}
+            onClick={handleStartStop}>
+            {isActive ? <img style={{width:"80px", height:"80px"}} src={Stop}/> : <img style={{width:"80px", height:"80px"}} src={Start}/>}
+          </button>
+
+          <button
+            style={{
+              background:"transparent",
+              border:"none",
+              cursor:"pointer",
+            }} 
+            onClick={handleReset}>
+            <img style={{width:"80px", height:"80px"}} src={Reset}/>
+          </button>
+        </div>
+      )}
+
+      {showTomate && <img src={tomate} className="tomate" />} {/* Mostra l'immagine con la classe 'tomate' */}
     </div>
   );
 }
