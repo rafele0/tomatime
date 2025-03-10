@@ -48,17 +48,22 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
     setHasStarted(true);
   };
 
-  const handleStartStop = () => {
+  const handleStartStop = () => { 
     setIsActive(!isActive);
   };
 
   const handleReset = () => {
+    fetch("http://localhost:3000/tasks/stop", {
+      method: 'POST',
+    })
+    .then((response) => response.json())
+    .then((data) => setTasks(data));
     setMinutes(initialMinutes);
     setSeconds(0);
     setIsActive(false);
     setHasStarted(false);
   };
-
+  
   return (
     <div className="intWorking">
       <div className="working-section">

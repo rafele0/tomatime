@@ -80,7 +80,7 @@ router.put('/', async (req, res) => {
 
 router.put('/state', async (req, res) => {
   try {
-    const taskId = req.body.id; 
+    const taskId = req.body.taskId; 
     const updatedData = req.body.state;
     const updatedTask = await fn.updateTaskState(taskId, updatedData);
     res.status(200).json(updatedTask);
@@ -99,11 +99,13 @@ router.post('/stop', async (req, res) => {
       }
 
       const tomatoCycle = await Tomato.findOne({ where: { last_used: true } });
-      if (!tomatoCycle) {
+      if (tomatoCycle === null) {
           return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
       }
 
-      // Incrementa il contatore exploded
+      if(tomatoCycle.state !== 'tomate') {
+        return res.status(400).json({ message: 'Non è possibile interrompere il timer se non è in corso un ciclo di pomodoro.' });
+      }
       tomatoCycle.exploded += 1;
       await tomatoCycle.save();
 

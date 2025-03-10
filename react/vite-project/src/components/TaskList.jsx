@@ -23,22 +23,6 @@ const TaskList = ({ tasks, openModal, onTaskAction }) => {
   );
 };
 
-/* const handleTaskAction = async (taskId) => {
-  try {
-    const updatedTask = await axios.put(`http://localhost:3000/tasks`, {
-      status: 'to do',
-      title:'',
-      description:
-    });
-    console.log('Task aggiornata:', updatedTask.data);
-    // Aggiorna lo stato locale per riflettere il cambiamento
-    setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, status: 'done' } : task
-    ));
-  } catch (error) {
-    console.error('Errore durante l\'aggiornamento della task:', error);
-  }
-}; */
 
 
 TaskList.propTypes = {
