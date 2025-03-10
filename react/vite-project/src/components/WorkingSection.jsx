@@ -10,7 +10,12 @@ import Reset from '../assets/reset.svg';
 import tomate from '../assets/tomate.png'; // Importa l'immagine
 
 function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
-  const [minutes, setMinutes] = useState(initialMinutes);
+  const [minutes, setMinutes] = useState(() => {
+    fetch("http://localhost:3000/tasks/timer")
+      .then((response) => response.json())
+      .then((data) => setMinutes(data.remainingTime));
+    return initialMinutes;
+  });
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -38,23 +43,31 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   }, [isActive, seconds, minutes]);
 
   const handleStart = () => {
+    fetch("http://localhost:3000/tasks/start")
+      .then((response) => response.json())
+      .then((data) => setTasks(data));
     setIsActive(true);
     setHasStarted(true);
     setShowTomate(true); // Mostra l'immagine
   };
 
-  const handleStartStop = () => {
+  const handleStartStop = () => { 
     setIsActive(!isActive);
   };
 
   const handleReset = () => {
+    fetch("http://localhost:3000/tasks/stop", {
+      method: 'POST',
+    })
+    .then((response) => response.json())
+    .then((data) => setTasks(data));
     setMinutes(initialMinutes);
     setSeconds(0);
     setIsActive(false);
     setHasStarted(false);
     setShowTomate(false); // Nascondi l'immagine
   };
-
+  
   return (
     <div className="intWorking">
       <div className="working-section">

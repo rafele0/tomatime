@@ -19,7 +19,7 @@ async function create(task) {
       id_user: task.id_user || 1 // Imposta un id_user di default se non specificato
     });
 
-    console.log('Task creato e salvato nel database:', newTask.toJSON());
+    //console.log('Task creato e salvato nel database:', newTask.toJSON());
     return newTask;
   } catch (error) {
     console.error('Errore nella creazione del task:', error);

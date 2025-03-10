@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import TaskModal from "../components/TaskModal";
 import TodoSectionContainer from "./TodoSectionContainer";
 import DoneSectionContainer from "./DoneSectionContainer";
@@ -10,8 +10,23 @@ const AppContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    fetch("http://localhost:3000/tasks")
+      .then((response) => response.json())
+      .then((data) => setTasks(data))
+  }, [])  
+
   const addTask = (newTask) => {
-    setTasks([...tasks, { id: tasks.length + 1, title: newTask.title, description: newTask.description, completed: false, working: false }]);
+    fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+    })
+      .then((response) => response.json())
+      .then((data) => setTasks([...tasks, data]));
+    //setTasks([...tasks, { id: tasks.length + 1, title: newTask.title, description: newTask.description, completed: false, working: false }]);
   };
 
   const startTask = (taskId) => {
