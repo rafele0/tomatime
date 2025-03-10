@@ -1,7 +1,7 @@
 const CREDENTIALS = {
-    username: '',
-    password: '',
-    database: ''
+    username: 'webeetle',
+    password: 'webeetle',
+    database: 'tomatime'
 }
 
 module.exports = { CREDENTIALS }
