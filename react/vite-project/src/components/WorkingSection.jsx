@@ -67,7 +67,27 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
     setHasStarted(false);
     setShowTomate(false); // Nascondi l'immagine
   };
-  
+
+  const handleCompleteTask = async (taskId) => {
+    try {
+      const response = await fetch('http://localhost:3000/tasks/state', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskId, state: 'done' }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log('Task completed successfully:', data);
+      onCompleteTask(taskId); // Chiama la funzione onCompleteTask per aggiornare lo stato nel frontend
+    } catch (error) {
+      console.error('Error completing task:', error);
+    }
+  };
+
   return (
     <div className="intWorking">
       <div className="working-section">
@@ -89,7 +109,7 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
       <button className='btnToDo' onClick={() => (tasks[0].id)}>  
         <img src={arrowLeft} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "-40px" }} /> To Do 
       </button>
-      <button className='btnDone' onClick={() => onCompleteTask(tasks[0].id)}>
+      <button className='btnDone' onClick={() => handleCompleteTask(tasks[0].id)}>
         Done <img src={arrowRight} style={{ "width": "20%", "height": "70%", "position": "absolute", "justifyContent": "center", "top": "5px", "marginInline": "20px" }} />
       </button>
 

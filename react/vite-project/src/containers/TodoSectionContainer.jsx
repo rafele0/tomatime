@@ -31,6 +31,7 @@ TodoSectionContainer.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
     })
   ).isRequired,
   onAddTask: PropTypes.func.isRequired,

@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TaskModal from "../components/TaskModal";
 import TodoSectionContainer from "./TodoSectionContainer";
 import DoneSectionContainer from "./DoneSectionContainer";
@@ -14,7 +14,7 @@ const AppContainer = () => {
     fetch("http://localhost:3000/tasks")
       .then((response) => response.json())
       .then((data) => setTasks(data))
-  }, [])  
+  }, []);
 
   const addTask = (newTask) => {
     fetch("http://localhost:3000/tasks", {
@@ -26,15 +26,44 @@ const AppContainer = () => {
     })
       .then((response) => response.json())
       .then((data) => setTasks([...tasks, data]));
-    //setTasks([...tasks, { id: tasks.length + 1, title: newTask.title, description: newTask.description, completed: false, working: false }]);
   };
 
-  const startTask = (taskId) => {
-    setTasks(tasks.map(task => task.id === taskId ? { ...task, working: true } : task));
+  const startTask = async (taskId) => {
+    try {
+      const response = await fetch('http://localhost:3000/tasks/state', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskId, state: 'workingAt' }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setTasks(tasks.map(task => task.id === taskId ? { ...task, state: 'workingAt' } : task));
+    } catch (error) {
+      console.error('Error starting task:', error);
+    }
   };
 
-  const completeTask = (taskId) => {
-    setTasks(tasks.map(task => task.id === taskId ? { ...task, completed: true, working: false } : task));
+  const completeTask = async (taskId) => {
+    try {
+      const response = await fetch('http://localhost:3000/tasks/state', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskId, state: 'done' }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setTasks(tasks.map(task => task.id === taskId ? { ...task, state: 'done' } : task));
+    } catch (error) {
+      console.error('Error completing task:', error);
+    }
   };
 
   const openModal = () => {
@@ -45,9 +74,9 @@ const AppContainer = () => {
     setIsModalOpen(false);
   };
 
-  const todoTasks = tasks.filter(task => !task.completed && !task.working);
-  const workingTasks = tasks.filter(task => task.working && !task.completed);
-  const doneTasks = tasks.filter(task => task.completed);
+  const todoTasks = tasks.filter(task => task.state === 'toDo');
+  const workingTasks = tasks.filter(task => task.state === 'workingAt');
+  const doneTasks = tasks.filter(task => task.state === 'done');
 
   return (
     <div className="app-container">
