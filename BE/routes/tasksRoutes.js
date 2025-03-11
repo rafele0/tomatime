@@ -6,7 +6,8 @@ const Tomato = require('../entities/tomatoes.js');
 
 
 router.get('/', async (req,res) => {
-    return res.json(await tasks.findAll())
+    const userId = req.body.id;
+    return res.json(await tasks.findAll({where: {user_id: userId}}));
 })
 
 router.post('/', async (req, res) => {
@@ -16,7 +17,8 @@ router.post('/', async (req, res) => {
     }
     const newTask = {
         title: body.title,
-        description: body.description
+        description: body.description,
+        user_id: body.userId
     }
     res.status(200).json((await fn.create(newTask)).toJSON());
     
@@ -24,19 +26,39 @@ router.post('/', async (req, res) => {
 
 
 router.get('/timer', async (req, res) => {
+    const userId = req.body.id;
+    if (!userId) {
+            return res.status(400).json({ message: 'user_id is required' });
+    }
 
-  const tomatoCycle = await Tomato.findOne({ where: { last_used : true } });
-  if (!tomatoCycle) { return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' }); }
-      const remainingTime = tomatoCycle.duration;
-      return res.status(200).json({ message: 'Task aggiornato con l\'orario attuale!', remainingTime: remainingTime });
+    let tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
+    if (!tomatoCycle) {
+            await Tomato.create({ user_id: userId, last_used: true, duration: 25, state: 'tomate', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 5, state: 'short break', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 25, state: 'tomate', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 5, state: 'short break', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 25, state: 'tomate', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 5, state: 'short break', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 25, state: 'tomate', exploded: 0 });
+            await Tomato.create({ user_id: userId, last_used: false, duration: 15, state: 'long break', exploded: 0 });
+            tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
+    }
+
+    const remainingTime = tomatoCycle.duration;
+    return res.status(200).json({ message: 'Task aggiornato con l\'orario attuale!', remainingTime: remainingTime });
  });
  
 
 // Avvia il timer del pomodoro se c'è un task "workingAt"
 router.get('/start', async (req, res) => {
     try {
-        // Controlla se esiste un task in "In Progress"
-        const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
+        const userId = req.body.id;
+        if (!userId) {
+            return res.status(400).json({ message: 'user_id is required' });
+        }
+
+        // Controlla se esiste un task in "In Progress" per l'utente specifico
+        const inProgressTask = await tasks.findOne({ where: { state: 'workingAt', user_id: userId } });
 
         if (!inProgressTask) {
             return res.status(400).json({ message: 'Nessun task in progress. Avvia un task prima di iniziare il pomodoro.' });
@@ -46,8 +68,6 @@ router.get('/start', async (req, res) => {
 
         // Aggiorna il task con l'orario attuale nella colonna time
         await tasks.update({ time: currentTime }, { where: { id: inProgressTask.id } });
-
-        
 
         res.json({ message: 'Task aggiornato con l\'orario attuale!', task: inProgressTask, time: currentTime });
     } catch (error) {
@@ -91,32 +111,37 @@ router.put('/state', async (req, res) => {
 
 
 router.post('/stop', async (req, res) => {
-  try {
-      const inProgressTask = await tasks.findOne({ where: { state: 'workingAt' } });
+try {
+        const userId = req.body.id;
+        if (!userId) {
+                return res.status(400).json({ message: 'user_id is required' });
+        }
 
-      if (!inProgressTask) {
-          return res.status(400).json({ message: 'Nessun task in progress da interrompere.' });
-      }
+        const inProgressTask = await tasks.findOne({ where: { state: 'workingAt', user_id: userId } });
 
-      const tomatoCycle = await Tomato.findOne({ where: { last_used: true } });
-      if (tomatoCycle === null) {
-          return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
-      }
+        if (!inProgressTask) {
+                return res.status(400).json({ message: 'Nessun task in progress da interrompere.' });
+        }
 
-      if(tomatoCycle.state !== 'tomate') {
-        return res.status(400).json({ message: 'Non è possibile interrompere il timer se non è in corso un ciclo di pomodoro.' });
-      }
-      tomatoCycle.exploded += 1;
-      await tomatoCycle.save();
+        const tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
+        if (tomatoCycle === null) {
+                return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
+        }
 
-      // Aggiorna lo stato del task
-      await tasks.update({ state: 'to do' }, { where: { id: inProgressTask.id } });
+        if(tomatoCycle.state !== 'tomate') {
+            return res.status(400).json({ message: 'Non è possibile interrompere il timer se non è in corso un ciclo di pomodoro.' });
+        }
+        tomatoCycle.exploded += 1;
+        await tomatoCycle.save();
 
-      res.json({ message: 'Timer interrotto e pomodoro segnato come esploso.' });
-  } catch (error) {
-      console.error('Errore nell\'interruzione del timer:', error);
-      res.status(500).json({ message: 'Errore interno del server' });
-  }
+        // Aggiorna lo stato del task
+        await tasks.update({ state: 'to do' }, { where: { id: inProgressTask.id, user_id: userId } });
+
+        res.json({ message: 'Timer interrotto e pomodoro segnato come esploso.' });
+} catch (error) {
+        console.error('Errore nell\'interruzione del timer:', error);
+        res.status(500).json({ message: 'Errore interno del server' });
+}
 });
 
 
