@@ -9,12 +9,18 @@ import "../index.css";
 const AppContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userId, setUserId] = useState(1); 
 
   useEffect(() => {
-    fetch("http://localhost:3000/tasks")
+    fetch('http://localhost:3000/tasks', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    })
       .then((response) => response.json())
-      .then((data) => setTasks(data))
-  }, []);
+      .then((data) => setTasks(data));
+  }, [userId]);
 
   const addTask = (newTask) => {
     fetch("http://localhost:3000/tasks", {

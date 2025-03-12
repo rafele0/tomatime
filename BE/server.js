@@ -1,16 +1,18 @@
 const express = require('express')
 const tasksRoutes = require('./routes/tasksRoutes.js')
 const cors = require('cors')
+const usersRoutes = require('./routes/usersRoutes.js')
 
 
 const sequelize = require('./db.js')
+const { users } = require('./entities/users.js')
 const app = express()
 const PORT = 3000
 app.use(express.json())
 app.use(cors())
 
 app.use('/tasks', tasksRoutes) 
-
+app.use('/users', usersRoutes)
 
 sequelize
     .sync({alter:true})

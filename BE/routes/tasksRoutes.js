@@ -3,10 +3,12 @@ const router = express.Router();
 const tasks = require('../entities/tasks.js');
 const fn = require('../taskController.js')
 const Tomato = require('../entities/tomatoes.js');
+const { combineTableNames } = require('sequelize/lib/utils');
+
 
 
 router.get('/', async (req,res) => {
-    const userId = req.body.id;
+    const userId = req.body.userId;
     return res.json(await tasks.findAll({where: {user_id: userId}}));
 })
 
@@ -26,7 +28,7 @@ router.post('/', async (req, res) => {
 
 
 router.get('/timer', async (req, res) => {
-    const userId = req.body.id;
+    const userId = req.query.userId;
     if (!userId) {
             return res.status(400).json({ message: 'user_id is required' });
     }
@@ -76,6 +78,19 @@ router.get('/start', async (req, res) => {
     }
 });
 
+
+router.get('/next', async (req, res) => {
+    const userId = req.body.id;
+    if (!userId) {
+        return res.status(400).json({ message: 'user_id is required' });
+    }
+    const tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
+    if (!tomatoCycle) {
+        return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
+    }
+    const newTomato = await fn.moveToNextTomato(tomatoCycle.id);
+    res.json({ message: 'Passaggio al pomodoro successivo', newTomato: newTomato });
+    });
 
 
 router.delete('/', async (req, res) => {
