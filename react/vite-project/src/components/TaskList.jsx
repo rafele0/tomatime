@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { use } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import TaskItem from './TaskItem';
 
-const TaskList = ({ tasks, openModal, onTaskAction }) => {
+const TaskList = ({ tasks, openModal, onTaskAction, userId }) => {
   return (
     <div className="task-list">
       {tasks.length === 0 ? (

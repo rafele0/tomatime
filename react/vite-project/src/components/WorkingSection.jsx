@@ -11,11 +11,13 @@ import tomate from '../assets/tomate.png'; // Importa l'immagine
 
 function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   const [minutes, setMinutes] = useState(() => {
-    fetch("http://localhost:3000/tasks/timer")
+    const userId = 1; // Replace with the actual userId
+    fetch(`http://localhost:3000/tasks/timer?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => setMinutes(data.remainingTime));
     return initialMinutes;
   });
+  
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
