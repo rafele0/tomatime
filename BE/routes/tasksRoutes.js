@@ -8,8 +8,8 @@ const { combineTableNames } = require('sequelize/lib/utils');
 
 
 router.get('/', async (req,res) => {
-    const userId = req.body.userId;
-    return res.json(await tasks.findAll({where: {user_id: userId}}));
+    const userId = req.query.userId;
+    return res.json(await tasks.findAll({where: {id_user: userId}}));
 })
 
 router.post('/', async (req, res) => {

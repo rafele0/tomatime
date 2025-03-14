@@ -3,24 +3,24 @@ import TaskModal from "../components/TaskModal";
 import TodoSectionContainer from "./TodoSectionContainer";
 import DoneSectionContainer from "./DoneSectionContainer";
 import WorkingSectionContainer from "./WorkingSectionContainer";
-import titlePageLogo from '../assets/titlePage.svg'
+import titlePageLogo from '../assets/titlePage.svg';
 import "../index.css";
 
 const AppContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userId, setUserId] = useState(1); 
+  const [userId, setUserId] = useState(1); // Imposta temporaneamente l'userId a 1
 
   useEffect(() => {
-    fetch('http://localhost:3000/tasks', {
+    fetch(`http://localhost:3000/tasks?userId=${userId}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId }),
     })
       .then((response) => response.json())
       .then((data) => setTasks(data));
-  }, [userId]);
+  }, [userId]); // Aggiungi una dipendenza vuota per eseguire la chiamata fetch solo una volta
 
   const addTask = (newTask) => {
     fetch("http://localhost:3000/tasks", {
@@ -41,7 +41,7 @@ const AppContainer = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ taskId, state: 'workingAt' }),
+        body: JSON.stringify({ taskId, state: 'workingAt', userId }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -55,12 +55,13 @@ const AppContainer = () => {
 
   const completeTask = async (taskId) => {
     try {
+      console.log('Completing task:', taskId);
       const response = await fetch('http://localhost:3000/tasks/state', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ taskId, state: 'done' }),
+        body: JSON.stringify({ taskId, state: 'done', userId }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -80,13 +81,13 @@ const AppContainer = () => {
     setIsModalOpen(false);
   };
 
-  const todoTasks = tasks.filter(task => task.state === 'toDo');
+  const todoTasks = tasks.filter(task => task.state === 'to do'); // Assicurati che lo stato sia esattamente 'to do'
   const workingTasks = tasks.filter(task => task.state === 'workingAt');
   const doneTasks = tasks.filter(task => task.state === 'done');
 
   return (
     <div className="app-container">
-      <header className="app-header"><img src={titlePageLogo}/></header>
+      <header className="app-header"><img src={titlePageLogo} alt="Title Page Logo"/></header>
       <main className="content">
         <div className="task-section">
           <TodoSectionContainer tasks={todoTasks} onAddTask={addTask} onStartTask={startTask} openModal={openModal} />
