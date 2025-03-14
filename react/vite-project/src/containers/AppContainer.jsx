@@ -81,7 +81,11 @@ const AppContainer = () => {
     setIsModalOpen(false);
   };
 
+<<<<<<< HEAD
   const todoTasks = tasks.filter(task => task.state === 'to do'); // Assicurati che lo stato sia esattamente 'to do'
+=======
+  const todoTasks = tasks.filter(task => task.state === 'to do');
+>>>>>>> 1ed7e5bfc19c49d2ccc6f898da77eafb1aad864d
   const workingTasks = tasks.filter(task => task.state === 'workingAt');
   const doneTasks = tasks.filter(task => task.state === 'done');
 
