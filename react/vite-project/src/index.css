@@ -106,7 +106,6 @@ body {
   color: #D33A2C;
   font-size: 18px;
   font-family: 'sora', sans-serif;
-  cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   align-items: center;
 
@@ -348,7 +347,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000; /* Assicura che sia sopra gli altri elementi */
+  pointer-events: auto; /* Intercetta i click */
 }
+
 
 .modal {
 

@@ -56,7 +56,7 @@ function TaskModal({ isOpen, onClose, onSave }) {
           placeholder=''
         />
         <div>
-          <button style={{"width":"36px", "height":"36px", "marginLeft":"40px","marginTop":"36px","background":"transparent","borderRadius":"8px", "border":"1px solid #D9391E"}}><img src={Delate}></img></button>
+          <button onClick={onClose} style={{"width":"36px", "height":"36px", "marginLeft":"40px","marginTop":"36px","background":"transparent","borderRadius":"8px", "border":"1px solid #D9391E"}}><img src={Delate}></img></button>
           <button onClick={onClose} style={{"width":"132px", "height":"40px","marginLeft":"200px", "marginTop":"36px","background":"transparent","borderRadius":"8px", "border":"1px solid #D9391E", "fontFamily":"sora sans-serif", "fontWeight":"regular", "fontSize":"20px", "color":"#D9391E"}}>Cancel</button>
           <button onClick={handleSave} style={{"width":"132px", "height":"40px","marginLeft":"26px", "marginTop":"36px","background":"#D9391E","borderRadius":"8px", "border":"1px solid #D9391E", "fontFamily":"sora sans-serif", "fontWeight":"regular", "fontSize":"20px", "color":"white"}}>Add Task</button>
         </div>

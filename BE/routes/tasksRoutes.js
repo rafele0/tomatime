@@ -26,6 +26,32 @@ router.post('/', async (req, res) => {
     
 });
 
+/*--------------------------------------------------------------------*/
+
+router.put('/:id', async (req, res) => {
+    try {
+      const taskId = req.params.id; 
+      const updatedData = req.body; 
+      const updatedTask = await fn.updateTask(taskId, updatedData); 
+      res.status(200).json(updatedTask); 
+    } catch (error) {
+      res.status(400).json({ error: error.message }); 
+    }
+  });
+
+  router.delete('/:id', async (req, res) => {
+    try {
+      const taskId = req.params.id; 
+      await fn.deleteTask(taskId); 
+      res.status(200).json({ message: 'Task deleted successfully' }); 
+    } catch (error) {
+      res.status(400).json({ error: error.message }); 
+    }
+  });
+
+
+  /*--------------------------------------------------------------------*/
+
 
 router.get('/timer', async (req, res) => {
     const userId = req.query.userId;
@@ -111,6 +137,8 @@ router.put('/', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+
 
 
 router.put('/state', async (req, res) => {
