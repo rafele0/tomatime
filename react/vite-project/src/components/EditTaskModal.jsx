@@ -27,7 +27,7 @@ function EditTaskModal({ task, onClose, onSave, onDelete }) {
       }
       const data = await response.json();
       console.log('Task updated successfully:', data);
-      onSave(data);
+      onSave(data); // Chiama la funzione onSave con la task aggiornata
       onClose();
     } catch (error) {
       console.error('Error updating task:', error);

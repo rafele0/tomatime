@@ -28,16 +28,6 @@ router.post('/', async (req, res) => {
 
 /*--------------------------------------------------------------------*/
 
-router.put('/:id', async (req, res) => {
-    try {
-      const taskId = req.params.id; 
-      const updatedData = req.body; 
-      const updatedTask = await fn.updateTask(taskId, updatedData); 
-      res.status(200).json(updatedTask); 
-    } catch (error) {
-      res.status(400).json({ error: error.message }); 
-    }
-  });
 
   router.delete('/:id', async (req, res) => {
     try {
@@ -119,17 +109,10 @@ router.get('/next', async (req, res) => {
     });
 
 
-router.delete('/', async (req, res) => {
-    const body = req.body;
-    if (!body.id) {
-      return res.status(400).json({ message: 'bad request' })
-  }
-    fn.deleteTask(body.id)
-});
 
-router.put('/', async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
-    const taskId = req.body.id; 
+    const taskId = req.params.id; 
     const updatedData = req.body;
     const updatedTask = await fn.updateTask(taskId, updatedData);
     res.status(200).json(updatedTask);

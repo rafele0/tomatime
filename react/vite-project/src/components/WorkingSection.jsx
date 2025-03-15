@@ -10,8 +10,8 @@ import Reset from '../assets/reset.svg';
 import tomate from '../assets/tomate.png'; // Importa l'immagine
 
 function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
+  const [userId, setUserId] = useState(1); // Imposta temporaneamente l'userId a 1
   const [minutes, setMinutes] = useState(() => {
-    const userId = 1; // Replace with the actual userId
     fetch(`http://localhost:3000/tasks/timer?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => setMinutes(data.remainingTime));
@@ -77,7 +77,7 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ taskId, state: 'done' }),
+        body: JSON.stringify({ taskId, state: 'done', userId }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');

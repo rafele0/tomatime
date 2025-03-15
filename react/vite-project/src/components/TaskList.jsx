@@ -13,6 +13,7 @@ const TaskList = ({ tasks, openModal, onTaskAction }) => {
 
   const handleSave = (updatedTask) => {
     setTaskList(taskList.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+    onTaskAction(updatedTask); // Propaga le modifiche al componente genitore
   };
 
   const handleClose = () => {

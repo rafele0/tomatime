@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import TaskModal from "../components/TaskModal";
 import TodoSectionContainer from "./TodoSectionContainer";
 import DoneSectionContainer from "./DoneSectionContainer";
@@ -10,17 +10,24 @@ const AppContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState(1); // Imposta temporaneamente l'userId a 1
+  const hasFetchedTasks = useRef(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/tasks?userId=${userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setTasks(data));
-  }, [userId]); // Aggiungi una dipendenza vuota per eseguire la chiamata fetch solo una volta
+    if (!hasFetchedTasks.current) {
+      console.log('Fetching tasks for userId:', userId);
+      fetch(`http://localhost:3000/tasks?userId=${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setTasks(data);
+          hasFetchedTasks.current = true;
+        });
+    }
+  }, [userId]);
 
   const addTask = (newTask) => {
     fetch("http://localhost:3000/tasks", {
@@ -73,6 +80,10 @@ const AppContainer = () => {
     }
   };
 
+  const updateTask = (updatedTask) => {
+    setTasks(tasks.map(task => (task.id === updatedTask.id ? updatedTask : task)));
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -81,8 +92,7 @@ const AppContainer = () => {
     setIsModalOpen(false);
   };
 
-
-  const todoTasks = tasks.filter(task => task.state === 'to do');
+  const todoTasks = tasks.filter(task => task.state === 'to do'); // Assicurati che lo stato sia esattamente 'to do'
   const workingTasks = tasks.filter(task => task.state === 'workingAt');
   const doneTasks = tasks.filter(task => task.state === 'done');
 
