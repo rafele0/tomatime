@@ -1,34 +1,18 @@
 import { useState } from 'react';
 import "../index.css";
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, error }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
 
-  const handleLogin = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError(null);
-
-    const response = await fetch('http://localhost:3000/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      localStorage.setItem("userId", data.id); 
-      onLogin(data); 
-    } else {
-      setError(data.message);
-    }
+    onLogin(email, password);
   };
 
   return (
-    <div className='Login-Component' >
-
-      <form onSubmit={handleLogin} className="login-form">
+    <div className='Login-Component'>
+      <form onSubmit={handleSubmit} className="login-form">
         <span className="title-form">LOGIN</span>
         {error && <p className="error"> {error}</p>}
         <input

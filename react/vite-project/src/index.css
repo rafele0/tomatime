@@ -21,8 +21,10 @@ body {
 .app-header {
   margin-top: 48px;
   left: 121px;
-  width: 352px;
+  max-width: 100%;
   height: 46px;
+  display: flex;
+
 }
 
 .content {
@@ -39,15 +41,51 @@ body {
   justify-content: space-between;
 }
 
+.status-counter {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  width: 80px;
+  height: 35px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  font-size: 14px;
+  color: #E74C3C;
+  
+}
+
+
+
+.counter-nav {
+  width: 27px;
+  height: 27px;
+  background-color: #FFDE59;
+  border-radius: 50%;
+  margin-left: 4px;
+  margin-right: 10px;
+  
+}
+
+.status-counter .count {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'sora', sans-serif;
+  color: #D9391E;
+}
+
+
+
 /* Sezione dei task */
 .task-section {
   width: 480px;
-  height: 832px; ;
+  height: 832px;
+  ;
   padding: 0px 88px 0px 88px;
   margin-top: 48px;
   display: flex;
   flex-direction: column;
-  
+
 
 }
 
@@ -58,7 +96,7 @@ body {
   flex-direction: column;
   margin: 100px 80px 0px 30px;
   overflow-y: auto;
-  position:fixed
+  position: fixed
 }
 
 .addTaskBnt {
@@ -79,18 +117,21 @@ body {
   position: sticky;
 
 }
+.addTaskBnt:hover {
+  background-color: rgba(196, 191, 191, 0.404);
+  border: 2px solid #D9391E;
+}
 
 .section-title {
 
-  color:#D9391E;
+  color: #D9391E;
   font-size: 32px;
- 
-  position:absolute
 
+  position: absolute
 }
 
 .SpanAddTask {
-  font-size: 18px;
+  font-size: 24px;
   font-family: 'sora', sans-serif;
 }
 
@@ -102,15 +143,27 @@ body {
   height: 80px;
   background: white;
   border: 0px transparent;
-  border-radius: 5px;
+  border-radius: 16px;
   color: #D33A2C;
   font-size: 18px;
   font-family: 'sora', sans-serif;
+  cursor: pointer;
   transition: background-color 0.2s ease-in-out;
   align-items: center;
 
 }
+.task-action-button:hover {
+  background-color: rgba(192, 191, 191, 0.336);
+}
 
+.StatusCircle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-left: 20px;
+  background-color: white;
+  position: sticky
+}
 
 /* ------------------------------------------------------------------------------------------------------------------------------------------------- */
 
@@ -133,54 +186,55 @@ body {
   color: #D9391E;
   margin-left: 66px;
   height: 35px;
-  width:236px;
+  width: 236px;
 
 }
 
 
-.working-section {        
+.working-section {
   margin-top: 48px;
 
 }
-.task-title-only{ 
+
+.task-title-only {
   font-size: 20px;
   font-weight: 600;
   font-family: 'sora', sans-serif;
   color: #D33A2C;
-  background-size:332px 62px ;
+  background-size: 332px 62px;
 
 }
 
-.section-for-task:nth-child(){
+.section-for-task:nth-child() {
   background: #ffff;
 }
 
-.section-for-task{
+.section-for-task {
   border: 2px solid white;
   width: 320px;
   height: 60px;
   margin-left: 24px;
-  position:absolute;
+  position: absolute;
   bottom: 82px;
-  border-radius:8px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.workingAt{
+.workingAt {
   margin-left: 115px;
-  position:absolute;
-  bottom: 157px; 
+  position: absolute;
+  bottom: 157px;
 
 }
 
-.btnToDo{
-  position:absolute;
+.btnToDo {
+  position: absolute;
   height: 40px;
   width: 148px;
-  bottom:24px;
+  bottom: 24px;
   margin-left: 24px;
   align-self: center;
   background: transparent;
@@ -192,11 +246,11 @@ body {
   border-radius: 5px;
 }
 
-.btnDone{
-  position:absolute;
+.btnDone {
+  position: absolute;
   height: 40px;
   width: 148px;
-  bottom:24px;
+  bottom: 24px;
   margin-left: 199px;
   align-self: center;
   background: transparent;
@@ -228,25 +282,36 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0px 80px 0px 30px;
-  
+
 }
-.done-item{
+
+.done-item {
   width: 480px;
   height: 80px;
-  border: none ;
+  border: none;
   border-radius: 16px;
   background-color: #EEEEEE;
   align-content: center;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   justify-content: center;
   align-items: center;
 }
+
 .CircleDone {
   width: 35px;
   height: 35px;
   background-color: #FFDE59;
-  border-radius: 50%;                         /* -------------------------------------------------------- da riv1q1npm runedere-------------------------------*/
+  border-radius: 50%;
+  /* -------------------------------------------------------- da riv1q1npm runedere-------------------------------*/
   margin-left: 20px;
+
+}
+.container-counter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 41px;
+  margin-left: 900px;
 
 }
 
@@ -258,31 +323,37 @@ body {
   margin-top: 75px;
 
 }
-.taskTitleDone{
+
+.taskTitleDone {
   color: #D33A2C;
   font-size: 20px;
   font-family: 'sora' sans-serif;
+  font-weight: 800;
   margin-top: 7px;
-  position:absolute;
+  position: absolute;
   margin-left: 20px;
   font-weight: 600;
 }
 
 .tomate {
   position: absolute;
-  bottom: -150px; /* Posiziona l'immagine sotto il rettangolo giallo */
-  right: 42%; /* Centra l'immagine orizzontalmente rispetto al rettangolo giallo */
+  bottom: -150px;
+  right: 42%;
+
   width: 303px;
   height: 303px;
-  transition: transform 2s ease-in-out; /* Definisci la transizione */
-  transform: translate(50%, 0);/* Posizione iniziale */
+  transition: transform 2s ease-in-out;
+ 
+  transform: translate(50%, 0);
+
 }
 
 .intWorking .tomate {
-  transform: translate(104%, -350px); /* Posizione finale */
+  transform: translate(104%, -350px);
+
 }
 
-.timer{
+.timer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -293,6 +364,7 @@ body {
   font-weight: 700;
 
 }
+
 /* --------------------------------------------------------------------------------------------------------------------------- */
 
 
@@ -347,17 +419,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Assicura che sia sopra gli altri elementi */
-  pointer-events: auto; /* Intercetta i click */
 }
-
 
 .modal {
 
   background-color: white;
   padding: 20px;
   border-radius: 16px;
-  width: 600px; 
+  width: 600px;
   height: 348px;
 }
 
@@ -377,7 +446,7 @@ body {
 
 .modalInput::placeholder {
   color: #D9391E;
-  
+
 }
 
 .modalHeader {
@@ -386,12 +455,139 @@ body {
   margin: 35px 0px 0px 40px;
 }
 
-.modalTextArea{
-  border: 2px solid rgba(0, 0, 0, 0.3); /* Bordo semi-trasparente */
-  border-radius: 8px; /* Angoli arrotondati */
+.modalTextArea {
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  /* Bordo semi-trasparente */
+  border-radius: 8px;
+  /* Angoli arrotondati */
   background: transparent;
   color: #D9391E;
-  outline: none; /* Rimuove il contorno di default */
-  box-shadow: 3px 3px 8px rgba(129, 129, 129, 0.229), 
-              -3px -3px 8px rgba(255, 255, 255, 0.808); /* Effetto rialzato */
+  outline: none;
+  /* Rimuove il contorno di default */
+  box-shadow: 3px 3px 8px rgba(129, 129, 129, 0.229),
+    -3px -3px 8px rgba(255, 255, 255, 0.808);
+  /* Effetto rialzato */
+}
+
+
+.login-body {
+  background-image: url('assets/sfondoTomate.jpg');
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+}
+
+.Login-Component {
+  width: 420px;
+  height: 480px;
+  border-radius: 32px;
+  background-color: #ffff;
+  box-shadow: 3px 3px 3px 3px #adacac40;
+  margin: 0 auto;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 196px;
+  transform: translateY(-50%);
+
+}
+
+.login-box {
+  position: absolute; 
+  top: 50%; 
+  left: 180px;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-50%);
+  
+}
+
+.image-login {
+  width: 300px;
+  height: 130px;
+  transform: translateY(250%);
+  margin-right: 150px;
+ 
+  
+}
+
+.tomatimeimage{
+  margin-bottom: 196px;
+}
+
+.title-form{
+  font-size: 32px;
+  font-weight: 800;
+  color: #D9391E;
+  font-family: 'sora', sans-serif;
+  padding: 1px 231px 0px 38px;
+  margin-top: 60px;
+  
+}
+.inputForm{
+  width: 300px;
+  height: 40px;
+  border: none;
+  border-bottom: 3px solid black;
+  background-color: transparent;
+  outline: none;
+  margin: 0px 60px 0px 60px;
+  padding-left: 1px;
+  padding-top: 40px;
+  font-family: 'sora', sans-serif;
+  font-size: 24px;
+  color: black;
+
+
+}
+.input-bnt{
+  width: 200px;
+  height: 60px;
+  background-color: #D9391E;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 25px;
+  font-family: 'sora', sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+  margin: 0px 60px 0px 60px;
+  margin-top: 40px;
+  outline: none;
+  
+}
+.textRegistration{
+  font-size: 18px;
+  font-family: 'sora', sans-serif;
+  color: black;
+  margin: 1px 20px -40px 20px;
+  padding-top: 85px;
+
+
+}.tomateicon{
+  width: 30px;
+  height: 30px;
+  margin: 3px 0px 2px 3px;
+}
+.profile-icon{
+  width: 60px;
+  height: 60px;
+ 
+
+}
+
+.error-text{
+  color: red;
+  font-size: 18px;
+  font-family: 'sora', sans-serif;
+  margin: 1px 20px -40px 20px;
+  padding-top: 85px;
 }
