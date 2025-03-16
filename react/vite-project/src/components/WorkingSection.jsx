@@ -72,12 +72,12 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
 
   const handleCompleteTask = async (taskId) => {
     try {
-      const response = await fetch('http://localhost:3000/tasks/state', {
+      const response = await fetch(`http://localhost:3000/tasks/state/${taskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ taskId, state: 'done', userId }),
+        body: JSON.stringify({state: 'done', userId }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');

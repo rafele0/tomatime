@@ -8,15 +8,13 @@ function TaskItem({ task, actionLabel, onAction }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleArrowClick = async () => {
-  
-
     try {
-      const response = await fetch('http://localhost:3000/tasks/state', {
+      const response = await fetch(`http://localhost:3000/tasks/state/${task.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ taskId: task.id, state: 'workingAt' }),
+        body: JSON.stringify({ state: 'workingAt' }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');

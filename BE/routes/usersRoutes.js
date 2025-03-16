@@ -22,18 +22,19 @@ router.post('/singup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    const body = req.body
+    const body = req.body;
     if (!body.email || !body.password) {
-        return res.status(400).json({ message: 'bad request' })
+        return res.status(400).json({ message: 'bad request' });
     }
-    const user = await users.findOne({ where: { email: body.email } })
+    const user = await users.findOne({ where: { email: body.email } });
     if (!user) {
-        return res.status(400).json({ message: 'user not found' })
+        return res.status(400).json({ message: 'user not found' });
     }
     if (user.password !== body.password) {
-        return res.status(400).json({ message: 'wrong password' })
+        return res.status(400).json({ message: 'wrong password' });
     }
-    res.status(200).json(user.toJSON());
+    res.status(200).json({ token: 'fake-jwt-token', user: user.toJSON() });
 });
+
 
 module.exports = router;

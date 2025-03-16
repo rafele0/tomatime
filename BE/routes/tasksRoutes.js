@@ -109,7 +109,6 @@ router.get('/next', async (req, res) => {
     });
 
 
-
 router.put('/:id', async (req, res) => {
   try {
     const taskId = req.params.id; 
@@ -123,17 +122,16 @@ router.put('/:id', async (req, res) => {
 
 
 
-
-router.put('/state', async (req, res) => {
-  try {
-    const taskId = req.body.taskId; 
-    const updatedData = req.body.state;
-    const updatedTask = await fn.updateTaskState(taskId, updatedData);
-    res.status(200).json(updatedTask);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+router.put('/state/:id', async (req, res) => {
+    try {
+      const taskId = req.params.id; // Usa req.params.id per ottenere l'ID della task
+      const updatedData = req.body.state;
+      const updatedTask = await fn.updateTaskState(taskId, updatedData);
+      res.status(200).json(updatedTask);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 
 
 router.post('/stop', async (req, res) => {

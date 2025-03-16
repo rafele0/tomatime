@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Login from "../components/Login";
 import "../index.css";
-import titolo from "../assets/sfondoTomate.jpg"
-import text from "../assets/Raggruppa 22@2x.png"
+import titolo from "../assets/sfondoTomate.jpg";
+import text from "../assets/Raggruppa 22@2x.png";
 
 const LoginContainer = ({ setIsAuthenticated }) => {
     const [error, setError] = useState(null);
