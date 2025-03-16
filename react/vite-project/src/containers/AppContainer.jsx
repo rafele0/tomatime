@@ -3,12 +3,18 @@ import TaskModal from "../components/TaskModal";
 import TodoSectionContainer from "./TodoSectionContainer";
 import DoneSectionContainer from "./DoneSectionContainer";
 import WorkingSectionContainer from "./WorkingSectionContainer";
+import UserMenu from "../components/UserMenu";
 import titlePageLogo from '../assets/titlePage.svg';
 import "../index.css";
+import solidCheck from '../assets/solidCheckY.svg';
+import solidTomato from '../assets/solidTomato.svg';
+import solidSmash from '../assets/solidSmash.png';
+import User from '../assets/User.png';
 
 const AppContainer = () => {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [userId, setUserId] = useState(1); // Imposta temporaneamente l'userId a 1
   const hasFetchedTasks = useRef(false);
 
@@ -92,13 +98,39 @@ const AppContainer = () => {
     setIsModalOpen(false);
   };
 
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
+
   const todoTasks = tasks.filter(task => task.state === 'to do'); // Assicurati che lo stato sia esattamente 'to do'
   const workingTasks = tasks.filter(task => task.state === 'workingAt');
   const doneTasks = tasks.filter(task => task.state === 'done');
 
   return (
     <div className="app-container">
-      <header className="app-header"><img src={titlePageLogo} alt="Title Page Logo"/></header>
+      
+      <header className="app-header">
+        <img src={titlePageLogo} alt="Title Page Logo"/>
+        <div className="user-info-container">
+          <div className="cont-done">
+            <img style = {{height: "40px", width: "40px", marginLeft:"3px"}} className = "imgHeader" src={solidCheck}></img>
+          </div>
+          <div className="cont-tomato">
+          <img style = {{height: "37px", width: "37px", marginLeft:"3px"}}className = "imgHeader" src={solidTomato}></img>
+          </div>
+          <div className="cont-smash">
+          <img style = {{height: "45px", width: "45px", marginLeft:"3px"}}className = "imgHeader" src={solidSmash}></img>
+          </div>
+          
+        </div>
+        <div className="user-info">
+          <button className="btnUser" style={{backgroundColor: "transparent", border: "none", cursor:"pointer"}} onClick={toggleUserMenu}>
+          <img style={{height:"60px", width:"60px"}}src={User}></img>
+          </button>
+          {isUserMenuOpen && <UserMenu onClose={toggleUserMenu} />}
+        </div>
+      </header>
+
       <main className="content">
         <div className="task-section">
           <TodoSectionContainer tasks={todoTasks} onAddTask={addTask} onStartTask={startTask} openModal={openModal} />
