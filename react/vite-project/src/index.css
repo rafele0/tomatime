@@ -295,6 +295,7 @@ body {
   margin-bottom: 10px;
   justify-content: center;
   align-items: center;
+  z-index: -1;
 }
 
 .CircleDone {
@@ -333,6 +334,7 @@ body {
   position: absolute;
   margin-left: 20px;
   font-weight: 600;
+  z-index: 1;
 }
 
 .tomate {
@@ -343,7 +345,7 @@ body {
   width: 303px;
   height: 303px;
   transition: transform 2s ease-in-out;
- 
+  z-index: 10;
   transform: translate(50%, 0);
 
 }
@@ -419,6 +421,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+  pointer-events: auto; 
 }
 
 .modal {
@@ -428,6 +432,8 @@ body {
   border-radius: 16px;
   width: 600px;
   height: 348px;
+  z-index: 1001;
+  pointer-events: auto;
 }
 
 .modalInput {
@@ -472,14 +478,18 @@ body {
 
 .login-body {
   background-image: url('assets/sfondoTomate.jpg');
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  align-items: center;
- 
+  justify-content: flex-start; 
+  align-items: center; 
+  height: 100vh; 
+  width: 100%;
+  position: relative; 
+  margin: 0;
+  padding: 0;
+  position:fixed;
 }
 
 .Login-Component {

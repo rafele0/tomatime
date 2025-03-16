@@ -16,7 +16,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginContainer setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/login" element={<LoginContainer setIsAuthenticated={setIsAuthenticated} />} /> 
         <Route path="/" element={isAuthenticated ? <AppContainer /> : <Navigate to="/login" />} />
       </Routes>
     </Router>

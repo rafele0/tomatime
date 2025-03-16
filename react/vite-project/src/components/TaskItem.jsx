@@ -22,6 +22,20 @@ function TaskItem({ task, actionLabel, onAction }) {
       const data = await response.json();
       console.log('Task moved successfully:', data);
       onAction(data);
+
+      // Move the task-title to the working section and remove the task item from the todo section
+      const taskTitleElement = document.querySelector(`.task-item[data-task-id="${task.id}"] .task-title`);
+      const taskItemElement = document.querySelector(`.task-item[data-task-id="${task.id}"]`);
+      const workingSection = document.querySelector('.section-for-task');
+      if (taskTitleElement && workingSection) {
+        const spanElement = document.createElement('span');
+        spanElement.textContent = taskTitleElement.textContent;
+        spanElement.className = 'task-title-only';
+        workingSection.appendChild(spanElement);
+      }
+      if (taskItemElement) {
+        taskItemElement.remove();
+      }
     } catch (error) {
       console.error('Error moving task:', error);
     }
@@ -44,7 +58,7 @@ function TaskItem({ task, actionLabel, onAction }) {
   };
 
   return (
-    <div className="task-item"
+    <div className="task-item" data-task-id={task.id}
       style={{
         display: 'flex',
         justifyContent: 'space-between',
