@@ -295,6 +295,7 @@ body {
   margin-bottom: 10px;
   justify-content: center;
   align-items: center;
+  z-index: -1;
 }
 
 .CircleDone {
@@ -333,6 +334,7 @@ body {
   position: absolute;
   margin-left: 20px;
   font-weight: 600;
+  z-index: 1;
 }
 
 .tomate {
@@ -343,7 +345,7 @@ body {
   width: 303px;
   height: 303px;
   transition: transform 2s ease-in-out;
- 
+  z-index: 10;
   transform: translate(50%, 0);
 
 }
@@ -419,6 +421,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+  pointer-events: auto; 
 }
 
 .modal {
@@ -428,6 +432,8 @@ body {
   border-radius: 16px;
   width: 600px;
   height: 348px;
+  z-index: 1001;
+  pointer-events: auto;
 }
 
 .modalInput {
@@ -472,14 +478,18 @@ body {
 
 .login-body {
   background-image: url('assets/sfondoTomate.jpg');
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  align-items: center;
- 
+  justify-content: flex-start; 
+  align-items: center; 
+  height: 100vh; 
+  width: 100%;
+  position: relative; 
+  margin: 0;
+  padding: 0;
+  position:fixed;
 }
 
 .Login-Component {
@@ -590,4 +600,88 @@ body {
   font-family: 'sora', sans-serif;
   margin: 1px 20px -40px 20px;
   padding-top: 85px;
+}
+
+
+/***********************************************************************/
+
+/* Header*/
+
+
+.user-info-container{
+  width: 318px;
+  height: 41px;
+  margin-left: 1200px;
+  position: absolute;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  flex-direction: row;
+}
+
+.cont-done{
+  width: 79px;
+  height: 41px;
+  background-color: #EEEEEE;
+  border-radius: 50px;
+}
+
+.cont-tomato{
+  width: 79px;
+  height: 41px;
+  background-color: #EEEEEE;
+  border-radius: 50px;
+}
+
+.cont-smash{
+  width: 79px;
+  height: 41px;
+  background-color: #EEEEEE;
+  border-radius: 50px;
+}
+
+.user-info{
+  margin-left: 1560px;
+  margin-top: -11px;
+  align-items: center;
+  position: absolute;
+}
+
+.user-menu {
+  position: absolute;
+  top: 70px; 
+  right: -120px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  width: 250px;
+  height: 100px;
+}
+
+.user-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0px 0px 10px;
+}
+
+.user-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.user-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  float: right;
 }
