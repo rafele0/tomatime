@@ -43,14 +43,15 @@ router.post('/', async (req, res) => {
   /*--------------------------------------------------------------------*/
 
 
-router.get('/timer', async (req, res) => {
+  router.get('/timer', async (req, res) => {
     const userId = req.query.userId;
     if (!userId) {
-            return res.status(400).json({ message: 'user_id is required' });
+        return res.status(400).json({ message: 'user_id is required' });
     }
 
-    let tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
-    if (!tomatoCycle) {
+    try {
+        let tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
+        if (!tomatoCycle) {
             await Tomato.create({ user_id: userId, last_used: true, duration: 25, state: 'tomate', exploded: 0 });
             await Tomato.create({ user_id: userId, last_used: false, duration: 5, state: 'short break', exploded: 0 });
             await Tomato.create({ user_id: userId, last_used: false, duration: 25, state: 'tomate', exploded: 0 });
@@ -60,11 +61,15 @@ router.get('/timer', async (req, res) => {
             await Tomato.create({ user_id: userId, last_used: false, duration: 25, state: 'tomate', exploded: 0 });
             await Tomato.create({ user_id: userId, last_used: false, duration: 15, state: 'long break', exploded: 0 });
             tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
-    }
+        }
 
-    const remainingTime = tomatoCycle.duration;
-    return res.status(200).json({ message: 'Task aggiornato con l\'orario attuale!', remainingTime: remainingTime });
- });
+        const remainingTime = tomatoCycle.duration;
+        return res.status(200).json({ remainingTime: remainingTime });
+    } catch (error) {
+        console.error('Errore nel recupero del timer:', error);
+        res.status(500).json({ message: 'Errore interno del server' });
+    }
+});
  
 
 // Avvia il timer del pomodoro se c'è un task "workingAt"
@@ -134,39 +139,40 @@ router.put('/state/:id', async (req, res) => {
   });
 
 
-router.post('/stop', async (req, res) => {
-try {
-        const userId = req.body.id;
+  router.post('/stop', async (req, res) => {
+    try {
+        const userId = req.body.userId;
+        console.log('Stopping task with userId:', userId); // Aggiungi questo log per verificare userId
         if (!userId) {
-                return res.status(400).json({ message: 'user_id is required' });
+            return res.status(400).json({ message: 'user_id is required' });
         }
 
-        const inProgressTask = await tasks.findOne({ where: { state: 'workingAt', user_id: userId } });
+        const inProgressTask = await tasks.findOne({ where: { state: 'workingAt', id_user: userId } });
 
         if (!inProgressTask) {
-                return res.status(400).json({ message: 'Nessun task in progress da interrompere.' });
+            return res.status(400).json({ message: 'Nessun task in progress da interrompere.' });
         }
 
         const tomatoCycle = await Tomato.findOne({ where: { last_used: true, user_id: userId } });
         if (tomatoCycle === null) {
-                return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
+            return res.status(400).json({ message: 'Nessuna configurazione trovata nella tabella tomatoes.' });
         }
 
-        if(tomatoCycle.state !== 'tomate') {
+        if (tomatoCycle.state !== 'tomate') {
             return res.status(400).json({ message: 'Non è possibile interrompere il timer se non è in corso un ciclo di pomodoro.' });
         }
         tomatoCycle.exploded += 1;
         await tomatoCycle.save();
 
         // Aggiorna lo stato del task
-        await tasks.update({ state: 'to do' }, { where: { id: inProgressTask.id, user_id: userId } });
+        await tasks.update({ state: 'to do' }, { where: { id: inProgressTask.id, id_user: userId } });
 
         res.json({ message: 'Timer interrotto e pomodoro segnato come esploso.' });
-} catch (error) {
+    } catch (error) {
         console.error('Errore nell\'interruzione del timer:', error);
         res.status(500).json({ message: 'Errore interno del server' });
-}
-});
+    }
+  });
 
 
 router.get('/exploded', async (req, res) => {

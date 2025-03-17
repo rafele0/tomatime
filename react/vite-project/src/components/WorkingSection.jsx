@@ -11,17 +11,25 @@ import tomate from '../assets/tomate.png'; // Importa l'immagine
 
 function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   const [userId, setUserId] = useState(1); // Imposta temporaneamente l'userId a 1
-  const [minutes, setMinutes] = useState(() => {
-    fetch(`http://localhost:3000/tasks/timer?userId=${userId}`)
-      .then((response) => response.json())
-      .then((data) => setMinutes(data.remainingTime));
-    return initialMinutes;
-  });
-  
+  const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [showTomate, setShowTomate] = useState(false); // Stato per gestire la visibilità dell'immagine
+
+  useEffect(() => {
+    const fetchTimer = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/tasks/timer?userId=${userId}`);
+        const data = await response.json();
+        setMinutes(data.remainingTime);
+      } catch (error) {
+        console.error('Errore nel recupero del timer:', error);
+      }
+    };
+
+    fetchTimer();
+  }, [userId]);
 
   useEffect(() => {
     let interval = null;
@@ -45,7 +53,13 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   }, [isActive, seconds, minutes]);
 
   const handleStart = () => {
-    fetch("http://localhost:3000/tasks/start")
+    fetch("http://localhost:3000/tasks/start", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    })
       .then((response) => response.json())
       .then((data) => setTasks(data));
     setIsActive(true);
@@ -58,8 +72,12 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
   };
 
   const handleReset = () => {
-    fetch("http://localhost:3000/tasks/stop", {
+    fetch(`http://localhost:3000/tasks/stop?userId=${userId}`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
     })
     .then((response) => response.json())
     .then((data) => setTasks(data));
@@ -77,7 +95,7 @@ function WorkingSection({ tasks, onCompleteTask, initialMinutes }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({state: 'done', userId }),
+        body: JSON.stringify({ state: 'done', userId }),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
